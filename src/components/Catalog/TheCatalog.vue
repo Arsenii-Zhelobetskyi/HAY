@@ -1,5 +1,32 @@
 <script setup>
 import CatalogItem from './CatalogItem.vue'
+import { useQuery } from '@tanstack/vue-query'
+import { getCatalog } from '../../services/apiCatalog'
+
+const { data: catalog, isPending } = useQuery({
+  queryKey: ['catalog'],
+  queryFn: getCatalog
+})
+</script>
+
+<template>
+  <div class="grid grid-cols-3 gap-6 gap-y-8">
+    <CatalogItem v-for="catalogItem in catalog" :key="catalogItem.id">
+      <template #name>
+        {{ catalogItem.name }}
+      </template>
+      <template #price>
+        {{ catalogItem.price }}
+      </template>
+      <template #image>
+        <img :src="catalogItem.image" alt="chair" class="h-full w-full object-cover" />
+      </template>
+    </CatalogItem>
+  </div>
+</template>
+
+<!-- <script setup>
+import CatalogItem from './CatalogItem.vue'
 
 const catalog = [
   {
@@ -41,20 +68,4 @@ const catalog = [
     image: 'https://via.placeholder.com/450x550'
   }
 ]
-</script>
-
-<template>
-  <div class="grid grid-cols-3 gap-6 gap-y-8">
-    <CatalogItem v-for="catalogItem in catalog" :key="catalogItem.id">
-      <template #name>
-        {{ catalogItem.name }}
-      </template>
-      <template #price>
-        {{ catalogItem.price }}
-      </template>
-      <template #image>
-        <img :src="catalogItem.image" alt="chair" class="h-full w-full object-cover" />
-      </template>
-    </CatalogItem>
-  </div>
-</template>
+</script> -->
