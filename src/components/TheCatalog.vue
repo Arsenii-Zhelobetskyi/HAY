@@ -46,10 +46,14 @@ const catalog = [
 <template>
   <div class="grid grid-cols-3 gap-6 gap-y-8">
     <CatalogItem v-for="catalogItem in catalog" :key="catalogItem.id">
-      <template #name>{{ catalogItem.name }}</template>
-      <template #price>{{ catalogItem.price }}</template>
+      <template #name>
+        {{ catalogItem.name }}
+      </template>
+      <template #price>
+        {{ catalogItem.price }}
+      </template>
       <template #image>
-        <img :src="catalogItem.image" alt="chair" class="w-full h-full object-cover" />
+        <img :src="catalogItem.image" alt="chair" class="h-full w-full object-cover" />
       </template>
     </CatalogItem>
   </div>

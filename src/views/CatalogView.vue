@@ -1,7 +1,7 @@
 <script setup>
-import TheWelcome from '../components/TheCatalog.vue'
+import TheCatalog from '../components/TheCatalog.vue'
 </script>
 
 <template>
-  <TheWelcome />
+  <TheCatalog />
 </template>

@@ -22,7 +22,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <nav class="flex justify-between">
         <RouterLink to="/">Catalog</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <h1>Search</h1>
+        <RouterLink to="/search">Search</RouterLink>
       </nav>
       <div class="col-start-3 flex justify-between">
         <h1>Contact</h1>
