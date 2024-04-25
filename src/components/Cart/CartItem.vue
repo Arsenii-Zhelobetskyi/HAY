@@ -4,6 +4,14 @@ import { useCartStore } from '@/stores/cart'
 const props = defineProps(['item'])
 const amount = ref(1)
 const cart = useCartStore()
+const addAmount = (id) => {
+  amount.value++
+  cart.addAmount(id, amount)
+}
+const removeAmount = (id) => {
+  amount.value--
+  cart.deleteAmount(id, amount)
+}
 </script>
 <template>
   <div class="grid grid-cols-4 gap-6">
@@ -14,7 +22,7 @@ const cart = useCartStore()
       <div class="text-4xl font-medium">
         {{ item.name }}
       </div>
-      <div class="font- text-2xl font-light text-gray-600">
+      <div class="text-2xl font-light text-gray-600">
         $ {{ item.price }}
         |
         <span v-if="item.quantity > 0" class="text-green-600"> In stock </span>
@@ -26,7 +34,7 @@ const cart = useCartStore()
       <div class="flex w-40 justify-between">
         <button
           class="h-10 w-10 border-2 hover:bg-gray-200 disabled:bg-gray-200"
-          @click="amount--"
+          @click="removeAmount(item.id)"
           :disabled="amount <= 1"
         >
           -
@@ -34,7 +42,7 @@ const cart = useCartStore()
         <input v-model="amount" class="max-w-9 text-center" />
         <button
           class="h-10 w-10 border-2 hover:bg-gray-200 disabled:bg-gray-200"
-          @click="amount++"
+          @click="addAmount(item.id)"
           :disabled="amount >= 99 || amount >= item.quantity"
         >
           +

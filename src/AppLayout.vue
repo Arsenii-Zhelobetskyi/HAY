@@ -4,15 +4,7 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
 </script>
 
 <template>
-  <aside>
-    <div class="fixed">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </aside>
-  <main class="col-span-3">
+  <main class="grid grid-cols-4 px-6 pb-20 pt-8 font-normal">
     <RouterView />
   </main>
   <header
