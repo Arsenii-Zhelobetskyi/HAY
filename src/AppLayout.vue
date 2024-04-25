@@ -5,7 +5,7 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
 
 <template>
   <aside>
-    <div class="wrapper">
+    <div class="fixed">
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
@@ -28,7 +28,7 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
       <div class="col-start-3 flex justify-between">
         <h1>Contact</h1>
         <h1>Profile</h1>
-        <h1>Cart</h1>
+        <RouterLink to="/cart">Cart</RouterLink>
       </div>
     </nav>
   </header>

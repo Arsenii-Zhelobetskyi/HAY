@@ -70,6 +70,6 @@ const about = [
 </script>
 <template>
   <div class="grid gap-6">
-    <AboutItem v-for="aboutItem in about" :key="aboutItem.id" :aboutItem="aboutItem" />
+    <AboutItem v-for="aboutItem in about" :key="aboutItem.id" :item="aboutItem" />
   </div>
 </template>
