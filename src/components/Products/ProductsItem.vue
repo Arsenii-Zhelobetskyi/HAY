@@ -1,13 +1,15 @@
 <script setup>
-import { useCartStore } from '@/stores/cart'
-defineProps(['item'])
+import { useRouter } from 'vue-router'
 
-const handleAddToCart = (newItem) => {
-  useCartStore().addToCart(newItem)
-}
+const router = useRouter()
+
+defineProps(['item'])
 </script>
 <template>
-  <div class="hover: flex flex-col hover:cursor-pointer" @click="handleAddToCart(item)">
+  <div
+    class="hover: flex flex-col hover:cursor-pointer"
+    @click="router.push(`/product/${item.id}`)"
+  >
     <div class="flex justify-between">
       <div>
         {{ item.name }}
