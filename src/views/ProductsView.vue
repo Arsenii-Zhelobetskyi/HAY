@@ -1,4 +1,5 @@
 <script setup>
+import ThePagination from '@/components/Products/ThePagination.vue'
 import TheProducts from '../components/Products/TheProducts.vue'
 </script>
 
@@ -14,6 +15,7 @@ import TheProducts from '../components/Products/TheProducts.vue'
     </aside>
     <section class="col-span-3">
       <TheProducts />
+      <ThePagination />
     </section>
   </main>
 </template>
