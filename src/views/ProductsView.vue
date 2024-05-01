@@ -1,5 +1,5 @@
 <script setup>
-import ThePagination from '@/components/Products/ThePagination.vue'
+import ThePagination from '@/components/Products/ThePagination/ThePagination.vue'
 import TheProducts from '../components/Products/TheProducts.vue'
 </script>
 
