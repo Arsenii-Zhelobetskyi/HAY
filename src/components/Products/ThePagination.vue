@@ -1,8 +1,14 @@
 <script setup>
 import { ref, watch } from 'vue'
-const DOTS = '...'
+class Dots {
+  constructor(page) {
+    this.label = '...'
+    this.newCurrentPage = page
+  }
+}
+
 const currentPage = ref(1)
-const contentCount = ref(80)
+const contentCount = ref(90)
 
 function range(start, end) {
   const length = end - start + 1
@@ -32,16 +38,21 @@ function usePagination(totalCount, pageSize, siblingCount = 2, currentPage) {
     const leftItemCount = 3 + 2 * siblingCount
     const leftRange = range(1, leftItemCount)
 
-    return [...leftRange, DOTS, totalPageCount]
+    const dots = new Dots(leftItemCount + 1)
+
+    return [...leftRange, dots, totalPageCount]
   }
   if (shouldShowLeftDots && !shouldShowRightDots) {
     const rightItemCount = 3 + 2 * siblingCount
     const rightRange = range(totalPageCount - rightItemCount + 1, totalPageCount)
-    return [firstPageIndex, DOTS, ...rightRange]
+    const dots = new Dots(totalPageCount - rightItemCount)
+    return [firstPageIndex, dots, ...rightRange]
   }
   if (shouldShowLeftDots && shouldShowRightDots) {
     const middleRange = range(leftSiblingIndex, rightSiblingIndex)
-    return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex]
+    const rightDots = new Dots(rightSiblingIndex + 1)
+    const leftDots = new Dots(leftSiblingIndex - 1)
+    return [firstPageIndex, leftDots, ...middleRange, rightDots, lastPageIndex]
   }
 }
 
@@ -49,10 +60,11 @@ let pagination = usePagination(contentCount.value, 10, 2, currentPage.value)
 
 watch(currentPage, (value) => {
   pagination = usePagination(contentCount.value, 10, 2, value)
+  console.log(pagination)
 })
 
-function changePosition(value, index) {
-  currentPage.value = value
+function changePosition(value) {
+  value instanceof Dots ? (currentPage.value = value.newCurrentPage) : (currentPage.value = value)
 }
 </script>
 <template>
@@ -61,10 +73,10 @@ function changePosition(value, index) {
       <div
         v-for="(page, index) in pagination"
         :key="index"
-        @click="changePosition(page, index)"
+        @click="changePosition(page)"
         :class="`${currentPage == page ? 'bg-blue-700' : 'bg-red-100'} cursor-pointer rounded-md p-2`"
       >
-        {{ page === DOTS ? DOTS : page }}
+        {{ page instanceof Dots ? page.label : page }}
       </div>
     </div>
   </div>
