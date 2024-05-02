@@ -1,15 +1,25 @@
 <script setup>
-import { ref } from 'vue'
 import { usePagination } from './usePagination'
-const contentCount = ref(200)
+import { defineProps } from 'vue'
+
+const props = defineProps({
+  totalCount: Number,
+  isPending: Boolean
+})
+
+console.log(props.totalCount)
+// const count = computed(() => props.totalCount)
+// console.log(count.value)
 const { pagination, goBack, goForward, currentPage, Dots, changePosition } = usePagination(
-  contentCount.value,
+  props.totalCount,
   10,
   2
 )
 </script>
+
 <template>
-  <div class="mb-20 mt-8 flex items-center justify-center text-2xl">
+  <div v-if="isPending">Loading</div>
+  <div v-else class="mb-20 mt-8 flex items-center justify-center text-2xl">
     <div class="flex items-center justify-center gap-14">
       <div class="cursor-pointer px-4 py-2 font-medium hover:bg-gray-200" @click="goBack">
         &#x3c; Previous

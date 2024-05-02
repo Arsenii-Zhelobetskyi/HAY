@@ -1,4 +1,5 @@
 import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 /**
  * logic for pagination
  * @param {*} totalCount  total number of items
@@ -6,8 +7,13 @@ import { ref, watch } from 'vue'
  * @param {*} siblingCount  number of items on each side of the current page
  */
 export function usePagination(totalCount, pageSize, siblingCount = 2) {
+  const router = useRouter()
   const pagination = ref([])
-  const currentPage = ref(1)
+
+  const currentPage = ref(
+    router.currentRoute.value.query.page ? +router.currentRoute.value.query.page : 1
+  )
+
   const totalPageCount = Math.ceil(totalCount / pageSize) // total number of pages
   //  support class and function
   class Dots {
@@ -48,7 +54,6 @@ export function usePagination(totalCount, pageSize, siblingCount = 2) {
 
       const dots = new Dots(leftItemCount + 1)
 
-      console.log(typeof dots.newCurrentPage)
       return [...leftRange, dots, totalPageCount]
     }
     if (shouldShowLeftDots && !shouldShowRightDots) {
@@ -71,17 +76,18 @@ export function usePagination(totalCount, pageSize, siblingCount = 2) {
   }
   function changePosition(value) {
     value instanceof Dots ? (currentPage.value = value.newCurrentPage) : (currentPage.value = value)
+    router.push({ query: { page: currentPage.value } })
   }
 
   function goBack() {
     if (currentPage.value === 1) return
-    currentPage.value--
+    changePosition(currentPage.value - 1)
   }
 
   function goForward() {
     if (currentPage.value === totalPageCount) return
 
-    currentPage.value++
+    changePosition(currentPage.value + 1)
   }
 
   watch(

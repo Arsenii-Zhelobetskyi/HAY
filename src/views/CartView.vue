@@ -35,7 +35,7 @@ function confirmCheckout() {
         </template>
         <div v-else>Your cart is empty</div>
         <RouterLink
-          to="/"
+          to="/products"
           class="border-4 border-gray-600 px-10 py-4 font-medium hover:bg-gray-600 hover:text-white"
         >
           back to products

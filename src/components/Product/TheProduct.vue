@@ -4,13 +4,13 @@ import TheCarousel from './TheCarousel.vue'
 import { useCartStore } from '@/stores/cart'
 import { useQuery } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
-const router = useRoute()
+const route = useRoute()
 
 const { data, isPending, error } = useQuery({
-  queryKey: ['product', router.params?.id],
-  queryFn: () => getProduct(router.params?.id)
+  queryKey: ['product', route.params?.id],
+  queryFn: () => getProduct(route.params?.id)
 })
-console.log(router.params.id)
+console.log(route.params.id)
 
 const handleAddToCart = (newItem) => {
   useCartStore().addToCart(newItem)
