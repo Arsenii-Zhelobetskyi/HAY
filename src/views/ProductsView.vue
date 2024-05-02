@@ -7,12 +7,11 @@ import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 const route = useRoute()
 
-const page = route.query.page || 1
-// let catalog = []
-// let count = 0
+const page = computed(() => route.query.page || '1')
+
 const { data, isPending } = useQuery({
   queryKey: ['products', page],
-  queryFn: () => getProducts({ page })
+  queryFn: () => getProducts({ page: page.value })
 })
 </script>
 
@@ -27,8 +26,8 @@ const { data, isPending } = useQuery({
       </div>
     </aside>
     <section class="col-span-3">
-      <TheProducts v-if="!isPending" :products="data?.products" :isPending="isPending" />
-      <ThePagination v-if="!isPending" :totalCount="data?.count" :isPending="isPending" />
+      <TheProducts :products="data?.products" :isPending="isPending" />
+      <ThePagination :count="data?.count" :isPending="isPending" />
     </section>
   </main>
 </template>

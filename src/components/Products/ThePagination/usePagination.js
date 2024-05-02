@@ -9,12 +9,11 @@ import { useRouter } from 'vue-router'
 export function usePagination(totalCount, pageSize, siblingCount = 2) {
   const router = useRouter()
   const pagination = ref([])
-
   const currentPage = ref(
     router.currentRoute.value.query.page ? +router.currentRoute.value.query.page : 1
   )
 
-  const totalPageCount = Math.ceil(totalCount / pageSize) // total number of pages
+  const totalPageCount = ref([])
   //  support class and function
   class Dots {
     // so dots know where to go
@@ -32,20 +31,21 @@ export function usePagination(totalCount, pageSize, siblingCount = 2) {
 
   function calculatePagination() {
     const totalPageNumbers = siblingCount + 5 // total number of page numbers to show in the pagination
+    totalPageCount.value = Math.ceil(totalCount.value / pageSize) // total number of pages
 
-    if (totalPageNumbers >= totalPageCount) {
+    if (totalPageNumbers >= totalPageCount.value) {
       // case 1: when numbers of pages are less than the number we want to show in the pagination
-      return range(1, totalPageCount)
+      return range(1, totalPageCount.value)
     }
 
     const leftSiblingIndex = Math.max(currentPage.value - siblingCount, 1)
-    const rightSiblingIndex = Math.min(currentPage.value + siblingCount, totalPageCount)
+    const rightSiblingIndex = Math.min(currentPage.value + siblingCount, totalPageCount.value)
 
     const shouldShowLeftDots = leftSiblingIndex > 2
-    const shouldShowRightDots = rightSiblingIndex < totalPageCount - 2
+    const shouldShowRightDots = rightSiblingIndex < totalPageCount.value - 2
 
     const firstPageIndex = 1
-    const lastPageIndex = totalPageCount
+    const lastPageIndex = totalPageCount.value
 
     if (!shouldShowLeftDots && shouldShowRightDots) {
       // case 2: when we only need to show right dots
@@ -54,14 +54,14 @@ export function usePagination(totalCount, pageSize, siblingCount = 2) {
 
       const dots = new Dots(leftItemCount + 1)
 
-      return [...leftRange, dots, totalPageCount]
+      return [...leftRange, dots, totalPageCount.value]
     }
     if (shouldShowLeftDots && !shouldShowRightDots) {
       // case 3: when we only need to show left dots
 
       const rightItemCount = 3 + 2 * siblingCount
-      const rightRange = range(totalPageCount - rightItemCount + 1, totalPageCount)
-      const dots = new Dots(totalPageCount - rightItemCount)
+      const rightRange = range(totalPageCount.value - rightItemCount + 1, totalPageCount.value)
+      const dots = new Dots(totalPageCount.value - rightItemCount)
       return [firstPageIndex, dots, ...rightRange]
     }
     if (shouldShowLeftDots && shouldShowRightDots) {
@@ -85,13 +85,13 @@ export function usePagination(totalCount, pageSize, siblingCount = 2) {
   }
 
   function goForward() {
-    if (currentPage.value === totalPageCount) return
+    if (currentPage.value === totalPageCount.value) return
 
     changePosition(currentPage.value + 1)
   }
 
   watch(
-    currentPage,
+    [currentPage, totalCount],
     () => {
       pagination.value = calculatePagination()
     },
