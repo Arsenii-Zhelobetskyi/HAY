@@ -3,7 +3,8 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-defineProps(['item'])
+const props = defineProps(['item'])
+console.log(props.item.images)
 </script>
 <template>
   <div
@@ -19,7 +20,7 @@ defineProps(['item'])
       </div>
     </div>
     <div class="flex-1">
-      <img :src="item.image" alt="chair" class="h-full w-full object-cover" />
+      <img :src="item.images[0]" alt="chair" class="h-full w-full object-cover" />
     </div>
   </div>
 </template>

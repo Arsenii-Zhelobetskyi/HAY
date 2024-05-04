@@ -10,7 +10,6 @@ const { data, isPending, error } = useQuery({
   queryKey: ['product', route.params?.id],
   queryFn: () => getProduct(route.params?.id)
 })
-console.log(route.params.id)
 
 const handleAddToCart = (newItem) => {
   useCartStore().addToCart(newItem)
@@ -20,7 +19,7 @@ const handleAddToCart = (newItem) => {
 <template>
   <div class="flex items-center justify-center gap-10">
     <div class="relative h-screen w-full pb-20">
-      <TheCarousel :gallery="data?.gallery" />
+      <TheCarousel :gallery="data?.images" />
     </div>
     <div class="max-w-96">
       <div class="mb-5 text-gray-600">Category</div>
