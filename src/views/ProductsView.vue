@@ -9,11 +9,15 @@ import { computed } from 'vue'
 const route = useRoute()
 
 const page = computed(() => route.query.page || '1')
-const category = computed(() => route.query.category || '0')
+const category = computed(() => route.query.category || null)
+
+const filter = computed(() =>
+  !category.value ? null : { field: 'category', value: category.value }
+)
 
 const { data, isPending } = useQuery({
-  queryKey: ['products', page, category],
-  queryFn: () => getProducts({ page: page.value, category: category.value })
+  queryKey: ['products', page, filter],
+  queryFn: () => getProducts({ page: page.value, filter: filter.value })
 })
 </script>
 

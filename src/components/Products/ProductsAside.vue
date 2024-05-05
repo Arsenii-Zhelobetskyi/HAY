@@ -15,15 +15,17 @@ const { data: categories, isPending } = useQuery({
     <div class="text-2xl font-light">Categories</div>
     <div class="flex gap-2">
       <div v-if="isPending">Loading...</div>
-      <TheFilter
-        v-else
-        v-for="(filter, index) in categories"
-        :key="filter.id"
-        :value="filter.id"
-        filterField="category"
-      >
-        {{ filter.name }}{{ index == categories.length - 1 ? '.' : ',' }}
-      </TheFilter>
+      <template v-else>
+        <TheFilter value="reset" filterField="category">all,</TheFilter>
+        <TheFilter
+          v-for="(filter, index) in categories"
+          :key="filter.id"
+          :value="filter.id"
+          filterField="category"
+        >
+          {{ filter.name }}{{ index == categories.length - 1 ? '.' : ',' }}
+        </TheFilter>
+      </template>
     </div>
   </div>
 </template>

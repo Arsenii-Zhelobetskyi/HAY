@@ -1,7 +1,7 @@
 import { PAGE_SIZE } from '../utils/constants'
 import supabase from './supabase'
 
-export async function getProducts({ page, category }) {
+export async function getProducts({ page, filter }) {
   let query = supabase.from('products').select('*', { count: 'exact' })
 
   if (page) {
@@ -11,9 +11,9 @@ export async function getProducts({ page, category }) {
     query = query.range(from, to)
   }
 
-  if (category !== '0') {
-    query = query.eq('category_id', category)
-    console.log('category', category)
+  if (filter) {
+    query = query[filter.method || 'eq'](filter.field, filter.value)
+    console.log(filter)
   }
 
   const { data: products, error, count } = await query
@@ -25,6 +25,7 @@ export async function getProducts({ page, category }) {
   // console.log(data)
   // console.log(data, count)
   // const result = { data, count }
+  console.log(products)
   return { products, count }
 }
 
