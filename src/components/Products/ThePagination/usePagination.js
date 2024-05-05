@@ -76,7 +76,8 @@ export function usePagination(totalCount, pageSize, siblingCount = 2) {
   }
   function changePosition(value) {
     value instanceof Dots ? (currentPage.value = value.newCurrentPage) : (currentPage.value = value)
-    router.push({ query: { page: currentPage.value } })
+    const currentQuery = router.currentRoute.value.query
+    router.push({ query: { ...currentQuery, page: currentPage.value } })
   }
 
   function goBack() {
@@ -89,13 +90,16 @@ export function usePagination(totalCount, pageSize, siblingCount = 2) {
 
     changePosition(currentPage.value + 1)
   }
-
   watch(
-    [currentPage, totalCount],
+    [currentPage, totalCount, router.currentRoute],
     () => {
       pagination.value = calculatePagination()
+      currentPage.value = router.currentRoute.value.query.page
+        ? +router.currentRoute.value.query.page
+        : 1
     },
     { immediate: true }
   )
+
   return { pagination, goBack, goForward, currentPage, Dots, changePosition }
 }
