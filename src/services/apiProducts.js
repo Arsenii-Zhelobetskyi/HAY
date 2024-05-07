@@ -13,7 +13,6 @@ export async function getProducts({ page, filter, sortBy }) {
 
   if (sortBy) {
     query = query.order(sortBy.field, { ascending: sortBy.direction === 'asc' })
-    console.log(sortBy)
   }
 
   if (filter) {
