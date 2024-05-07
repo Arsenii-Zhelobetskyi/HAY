@@ -1,7 +1,7 @@
 import { PAGE_SIZE } from '../utils/constants'
 import supabase from './supabase'
 
-export async function getProducts({ page, filter }) {
+export async function getProducts({ page, filter, sortBy }) {
   let query = supabase.from('products').select('*', { count: 'exact' })
 
   if (page) {
@@ -9,6 +9,11 @@ export async function getProducts({ page, filter }) {
     const to = from + PAGE_SIZE - 1
 
     query = query.range(from, to)
+  }
+
+  if (sortBy) {
+    query = query.order(sortBy.field, { ascending: sortBy.direction === 'asc' })
+    console.log(sortBy)
   }
 
   if (filter) {
@@ -22,22 +27,9 @@ export async function getProducts({ page, filter }) {
     console.log('Error fetching products', error.message)
     throw new Error(error.message)
   }
-  // console.log(data)
-  // console.log(data, count)
-  // const result = { data, count }
-  console.log(products)
+
   return { products, count }
 }
-
-// export async function getProducts() {
-//   const { data, error } = await supabase.from('products').select('*')
-//   if (error) {
-//     console.log('Error fetching products', error.message)
-//     throw new Error(error.message)
-//   }
-
-//   return data
-// }
 
 export async function getProduct(id) {
   const { data, error } = await supabase.from('products').select('*').eq('id', id).single()

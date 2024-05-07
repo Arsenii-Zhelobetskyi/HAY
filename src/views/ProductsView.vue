@@ -5,19 +5,26 @@ import TheProducts from '../components/Products/TheProducts.vue'
 import { useQuery } from '@tanstack/vue-query'
 import { getProducts } from '../services/apiProducts'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
+
 const route = useRoute()
 
 const page = computed(() => route.query.page || '1')
-const category = computed(() => route.query.category || null)
 
+const category = computed(() => route.query.category || null)
 const filter = computed(() =>
   !category.value ? null : { field: 'category', value: category.value }
 )
+const sortByValue = computed(() => route.query.sortBy || null)
+function separate() {
+  const [field, direction] = sortByValue.value?.split('-') || []
+  return { field, direction }
+}
 
+const sortBy = computed(() => (!sortByValue.value ? null : separate()))
 const { data, isPending } = useQuery({
-  queryKey: ['products', page, filter],
-  queryFn: () => getProducts({ page: page.value, filter: filter.value })
+  queryKey: ['products', page, filter, sortBy],
+  queryFn: () => getProducts({ page: page.value, filter: filter.value, sortBy: sortBy.value })
 })
 </script>
 

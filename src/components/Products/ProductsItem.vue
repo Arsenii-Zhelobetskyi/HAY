@@ -3,8 +3,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const props = defineProps(['item'])
-console.log(props.item.images)
+defineProps(['item'])
 </script>
 <template>
   <div

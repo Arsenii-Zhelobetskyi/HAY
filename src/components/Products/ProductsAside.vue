@@ -1,31 +1,16 @@
 <script setup>
-import { useQuery } from '@tanstack/vue-query'
-import { getCategories } from '../../services/apiProducts'
+import FilterRow from './FilterRow.vue'
+import SortBy from './SortBy.vue'
 
-import TheFilter from './TheFilter.vue'
-
-const { data: categories, isPending } = useQuery({
-  queryKey: ['categories'],
-  queryFn: () => getCategories()
-})
+const sortByOptions = [
+  { value: 'price-desc', label: 'High Price' },
+  { value: 'price-asc', label: 'Low Price' }
+]
 </script>
 
 <template>
-  <div class="mt-16">
-    <div class="text-2xl font-light">Categories</div>
-    <div class="flex gap-2">
-      <div v-if="isPending">Loading...</div>
-      <template v-else>
-        <TheFilter value="reset" filterField="category">all,</TheFilter>
-        <TheFilter
-          v-for="(filter, index) in categories"
-          :key="filter.id"
-          :value="filter.id"
-          filterField="category"
-        >
-          {{ filter.name }}{{ index == categories.length - 1 ? '.' : ',' }}
-        </TheFilter>
-      </template>
-    </div>
+  <div>
+    <FilterRow />
+    <SortBy :options="sortByOptions" />
   </div>
 </template>
