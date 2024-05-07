@@ -17,7 +17,6 @@ export async function getProducts({ page, filter, sortBy }) {
 
   if (filter) {
     query = query[filter.method || 'eq'](filter.field, filter.value)
-    console.log(filter)
   }
 
   const { data: products, error, count } = await query
