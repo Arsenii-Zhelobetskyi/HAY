@@ -1,5 +1,5 @@
 <script setup>
-import TheCarousel from '@/components/Product/TheCarousel.vue'
+// import TheCarousel from '@/components/Product/TheCarousel.vue'
 import TheProduct from '@/components/Product/TheProduct.vue'
 </script>
 <template>

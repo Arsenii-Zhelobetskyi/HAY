@@ -39,7 +39,6 @@ const pageCount = computed(() => {
 
 watch([page, filter, sortBy, pageCount], () => {
   if (Number(page.value) < pageCount.value) {
-    console.log(page.value)
     queryClient.prefetchQuery({
       queryKey: ['products', filter, sortBy, Number(page.value) + 1],
       queryFn: () =>

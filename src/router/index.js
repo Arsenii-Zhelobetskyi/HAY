@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ProductsView from '../views/ProductsView.vue'
+import supabase from '../services/supabase'
+import { getCurrentUser } from '@/services/apiAuth'
+import { QueryClient } from '@tanstack/vue-query'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

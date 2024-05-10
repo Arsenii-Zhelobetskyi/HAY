@@ -1,31 +1,16 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import TheHeader from './ui/TheHeader.vue'
+import ProtectedRoute from './ui/ProtectedRoute.vue'
+import { RouterView } from 'vue-router'
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
-import { useCartStore } from '@/stores/cart'
-
-const cart = useCartStore()
+import { getCurrentUser, signIn } from './services/apiAuth'
+import { useQuery } from '@tanstack/vue-query'
 </script>
 
 <template>
-  <RouterView />
-  <header
-    class="fixed bottom-0 left-0 right-0 grid h-20 grid-cols-4 content-center bg-white p-1 px-6 font-medium uppercase"
-  >
-    <RouterLink to="/products">My App</RouterLink>
-    <nav class="col-span-3 grid grid-cols-3 gap-6">
-      <nav class="flex justify-between">
-        <RouterLink to="/products">Catalog</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/search">Search</RouterLink>
-      </nav>
-      <nav class="col-start-3 flex justify-between">
-        <h1>Contact</h1>
-        <h1>Profile</h1>
-        <RouterLink to="/cart"
-          >Cart<span v-if="cart.itemsInCart > 0"> ({{ cart.itemsInCart }})</span></RouterLink
-        >
-      </nav>
-    </nav>
-  </header>
+  <ProtectedRoute>
+    <RouterView />
+    <TheHeader />
+  </ProtectedRoute>
   <VueQueryDevtools />
 </template>
