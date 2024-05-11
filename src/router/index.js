@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import ProductsView from '../views/ProductsView.vue'
-import supabase from '../services/supabase'
-import { getCurrentUser } from '@/services/apiAuth'
-import { QueryClient } from '@tanstack/vue-query'
+import SignInView from '../views/SignInView.vue'
+import SignUpView from '@/views/SignUpView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +45,16 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFoundView.vue')
+    },
+    {
+      path: '/sign-in',
+      name: 'sign-in',
+      component: SignInView
+    },
+    {
+      path: '/sign-up',
+      name: 'sign-up',
+      component: SignUpView
     }
   ]
 })

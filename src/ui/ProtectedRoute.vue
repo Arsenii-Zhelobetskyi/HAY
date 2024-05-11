@@ -11,14 +11,14 @@ router.beforeEach(async (to, from) => {
     queryKey: ['user'],
     queryFn: getCurrentUser
   })
-  if (!data && to.name !== 'not-found') {
+  if (!data && to.name !== 'sign-in') {
     return {
-      name: 'not-found'
+      name: 'sign-in'
     }
   }
-  if (!data?.role === 'authenticated' && to.name !== 'not-found') {
+  if (!data?.role === 'authenticated' && to.name !== 'sign-in') {
     return {
-      name: 'not-found'
+      name: 'sign-in'
     }
   }
 })
