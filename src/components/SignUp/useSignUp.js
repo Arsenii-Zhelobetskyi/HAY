@@ -1,18 +1,18 @@
 import { useQueryClient, useMutation } from '@tanstack/vue-query'
-import { signIn as signInApi } from '../services/apiAuth'
+import { signUp as signUpApi, getCurrentUser } from '../../services/apiAuth'
 import { useRouter } from 'vue-router'
 
-export function useSignIn() {
+export function useSignUp() {
   const queryClient = useQueryClient()
   const router = useRouter()
 
   const {
-    mutate: signIn,
-    isPending: signInIsPending,
-    error: signInError
+    mutate: signUp,
+    isPending: signUpIsPending,
+    error: signUpError
   } = useMutation({
-    mutationFn: ({ email, password }) => signInApi({ email, password }),
-    onSuccess: (data) => {
+    mutationFn: ({ email, password }) => signUpApi({ email, password }),
+    onSuccess: async (data) => {
       queryClient.setQueryData(['user'], data)
       router.push('/')
     },
@@ -20,5 +20,5 @@ export function useSignIn() {
       console.log(error)
     }
   })
-  return { signIn, signInIsPending, signInError }
+  return { signUp, signUpIsPending, signUpError }
 }
