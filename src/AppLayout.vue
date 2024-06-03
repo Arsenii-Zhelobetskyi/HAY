@@ -2,15 +2,35 @@
 import TheHeader from './ui/TheHeader.vue'
 import ProtectedRoute from './ui/ProtectedRoute.vue'
 import { RouterView } from 'vue-router'
-import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
-import { getCurrentUser, signIn } from './services/apiAuth'
-import { useQuery } from '@tanstack/vue-query'
 </script>
 
 <template>
   <ProtectedRoute>
-    <RouterView />
+    <router-view v-slot="slotProps">
+      <transition name="route" mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
     <TheHeader />
   </ProtectedRoute>
-  <VueQueryDevtools />
 </template>
+
+<style>
+.route-enter-from,
+.route-leave-to {
+  opacity: 0;
+}
+
+.route-enter-active {
+  transition: opacity 0.4s ease-out;
+}
+
+.route-leave-active {
+  transition: opacity 0.4s ease-in;
+}
+
+.route-enter-to,
+.route-leave-from {
+  opacity: 1;
+}
+</style>
