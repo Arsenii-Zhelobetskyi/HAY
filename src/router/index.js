@@ -6,6 +6,7 @@ import NonAuthenticatedLayout from '@/Non-authenticated/NonAuthenticatedLayout.v
 import AuthenticatedLayout from '@/Authenticated/AuthenticatedLayout.vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { getCurrentUser } from '@/services/apiAuth'
+
 // const router = createRouter({
 //   history: createWebHistory(import.meta.env.BASE_URL),
 //   routes: [
@@ -107,6 +108,11 @@ const router = createRouter({
           path: '/search',
           name: 'search',
           component: () => import('../views/SearchView.vue')
+        },
+        {
+          path: '/profile',
+          name: 'profile',
+          component: () => import('../views/ProfileView.vue')
         },
         {
           path: '/cart',

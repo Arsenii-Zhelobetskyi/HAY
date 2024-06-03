@@ -18,7 +18,7 @@ const cart = useCartStore()
       </nav>
       <nav class="col-start-3 flex justify-between">
         <h1>Contact</h1>
-        <h1>Profile</h1>
+        <RouterLink to="/profile">Profile</RouterLink>
         <RouterLink to="/cart"
           >Cart<span v-if="cart.itemsInCart > 0"> ({{ cart.itemsInCart }})</span></RouterLink
         >
