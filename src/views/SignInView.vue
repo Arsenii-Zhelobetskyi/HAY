@@ -5,7 +5,7 @@ import SignInForm from '@/components/SignIn/SignInForm.vue'
 
 <template>
   <main class="grid grid-cols-4 font-normal">
-    <aside class="relative col-span-2 h-screen w-full pb-20">
+    <aside class="relative col-span-2 h-screen w-full">
       <img
         :src="sidebarSignIn"
         alt="Sign in"

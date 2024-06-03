@@ -1,9 +1,8 @@
 <script setup>
 import { useRouter } from 'vue-router'
-const router = useRouter()
-
 import { getCurrentUser } from '../services/apiAuth'
 import { useQueryClient } from '@tanstack/vue-query'
+const router = useRouter()
 const queryClient = useQueryClient()
 router.beforeEach(async (to, from) => {
   // get current user info
@@ -11,6 +10,7 @@ router.beforeEach(async (to, from) => {
     queryKey: ['user'],
     queryFn: getCurrentUser
   })
+  console.log()
   if (!data && to.name !== 'sign-in' && to.name !== 'sign-up') {
     return {
       name: 'sign-in'
@@ -25,5 +25,5 @@ router.beforeEach(async (to, from) => {
 </script>
 
 <template>
-  <slot></slot>
+  <router-view />
 </template>
