@@ -24,3 +24,14 @@ export async function signUp({ email, password }) {
   // console.log('data', data)
   return data
 }
+
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+  if (error) throw new Error(error.massage)
+}
+
+export async function updateUser({email, password, data}){
+  const {data: userData, error} = await supabase.auth.updateUser({email,password,data});
+  if (error) throw new Error(error.message);
+  return userData
+}
