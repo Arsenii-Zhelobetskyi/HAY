@@ -11,7 +11,7 @@ import SignUpForm from '@/components/SignUp/SignUpForm.vue'
         <SignUpForm />
       </div>
     </section>
-    <aside class="relative col-span-2 h-screen w-full pb-20">
+    <aside class="relative col-span-2 h-screen w-full">
       <img
         :src="sidebarSignUp"
         alt="Sign in"

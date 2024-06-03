@@ -14,7 +14,7 @@ export function useSignIn() {
     mutationFn: ({ email, password }) => signInApi({ email, password }),
     onSuccess: (data) => {
       queryClient.setQueryData(['user'], data)
-      router.push('/')
+      router.push('/products')
     },
     onError: (error) => {
       console.log(error)
