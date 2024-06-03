@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  transition: scroll 4s ease-in-out;
+}

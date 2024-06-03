@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
-const props = defineProps(['item'])
+defineProps(['item'])
 const amount = ref(1)
 const cart = useCartStore()
 const addAmount = (id) => {
