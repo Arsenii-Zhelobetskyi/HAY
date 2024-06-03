@@ -46,3 +46,24 @@ export async function getCategories() {
   }
   return data
 }
+
+export async function decreaseProductQuantity(id, decAmount) {
+  const product = await getProduct(id);
+  const newQuantity = product.quantity - decAmount;
+
+  if (newQuantity < 0) {
+    throw new Error('Negative quantity');
+  }
+
+  const { data, error } = await supabase.from('products')
+    .update({ quantity: newQuantity })
+    .eq('id', id)
+    .select();
+
+  if (error)
+  {
+    throw new Error('Updating error');
+  }
+
+  return data;
+}

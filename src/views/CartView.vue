@@ -1,13 +1,17 @@
 <script setup>
 import TheCart from '../components/Cart/TheCart.vue'
 import { RouterLink, useRouter } from 'vue-router'
-
+import {decreaseProductQuantity} from '@/services/apiProducts.js'
 import { useCartStore } from '@/stores/cart'
 const cart = useCartStore()
 const router = useRouter()
 
-function confirmCheckout() {
-  router.push('/checkout')
+async function confirmCheckout() {
+  const cartItems = cart.cart;
+  for (const item of cartItems) {
+     await decreaseProductQuantity(item.id, item.amount);
+     cart.clearTheCart();
+  }
 }
 </script>
 
@@ -27,7 +31,7 @@ function confirmCheckout() {
             Your total is <span class="font-medium text-green-600">$ {{ cart.totalPrice }}</span>
           </div>
           <button
-            @click="confirmCheckout"
+            @click="confirmCheckout()"
             class="border-4 border-black bg-black px-20 py-4 font-medium text-white hover:border-gray-600 hover:bg-gray-600"
           >
             Checkout
