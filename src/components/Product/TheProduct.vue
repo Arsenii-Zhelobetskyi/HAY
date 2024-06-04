@@ -52,7 +52,7 @@ const handleAddToCart = (newItem) => {
         class="mt-10 border-2 border-black bg-black px-24 py-4 text-2xl font-medium text-white hover:border-gray-600 hover:bg-gray-600"
         @click="handleAddToCart(data)"
       >
-        {{ useCartStore().cart.some(item => item.id === data.id) ? 'Remove from cart' : 'Add to cart' }}
+        {{ useCartStore().cart.some(item => item.id === data?.id) ? 'Remove from cart' : 'Add to cart' }}
       </button>
     </div>
     <div class="relative h-96 w-96"></div>
