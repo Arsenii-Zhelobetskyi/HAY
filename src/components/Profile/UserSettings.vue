@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getCurrentUser, logout, updateUser } from '@/services/apiAuth.js'
+import { getOrders } from '@/services/apiOrders.js'
 
 const user = ref(null);
+const orders = ref([]);
 const loading = ref(true);
 const showSettings = ref(false);
 const newEmail = ref('');
@@ -31,6 +33,11 @@ const toggleSettings = () => {
 
 onMounted(async () => {
   user.value = await getCurrentUser();
+
+  if (user.value) {
+    orders.value = await getOrders();
+  }
+
   loading.value = false;
 });
 </script>
@@ -56,6 +63,14 @@ onMounted(async () => {
           <button class="hover:underline" type="submit">Save Changes</button>
           <button class="hover:underline" type="button" @click="toggleSettings">Cancel</button>
         </form>
+      </div>
+      <div>
+        <h2>Your Orders:</h2>
+        <ul>
+          <li v-for="order in orders" :key="order.id">
+            Product ID: {{ order.product_id }}, Quantity: {{ order.products_bought }}, Total price: {{order.total_price}}
+          </li>
+        </ul>
       </div>
     </div>
   </div>
