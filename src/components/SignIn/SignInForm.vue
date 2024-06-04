@@ -50,7 +50,6 @@ const emailEntered = ref(false)
 async function showPass() {
   emailEntered.value = await validateField('email')
 }
-console.log(magicLinkIsSuccess.value)
 </script>
 
 <template>
@@ -115,7 +114,6 @@ console.log(magicLinkIsSuccess.value)
           @click="
             () => {
               emailEntered.valid = false
-              console.log(emailEntered.value)
             }
           "
         >

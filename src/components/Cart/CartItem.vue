@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
-defineProps(['item'])
+const props = defineProps(['item'])
 const amount = ref(1)
 const cart = useCartStore()
 const addAmount = (id) => {
@@ -12,11 +12,12 @@ const removeAmount = (id) => {
   amount.value--
   cart.deleteAmount(id, amount)
 }
+console.log(props.item.images[0])
 </script>
 <template>
   <div class="grid grid-cols-4 gap-6">
     <div class="">
-      <img :src="item.image" alt="chair" class="h-full w-full object-cover" />
+      <img :src="item.images[0]" alt="chair" class="h-full w-full object-cover" />
     </div>
     <div class="flex flex-col justify-center gap-4">
       <div class="text-4xl font-medium">
