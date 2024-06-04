@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useCursorStore = defineStore('cartStore', {
+export const useCursorStore = defineStore('cursorStore', {
   state: () => ({
     bigBall: null
   }),
