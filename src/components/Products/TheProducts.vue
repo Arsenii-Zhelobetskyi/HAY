@@ -1,7 +1,7 @@
 <script setup>
 import ProductsItem from './ProductsItem.vue'
 
-defineProps(['products', 'isPending'])
+defineProps(['products', 'isShow'])
 </script>
 
 <template>
@@ -10,7 +10,7 @@ defineProps(['products', 'isPending'])
       v-for="productsItem in products"
       :key="productsItem.id"
       :item="productsItem"
-      :is-pending="isPending"
+      :isShow="isShow"
     />
   </div>
 </template>
