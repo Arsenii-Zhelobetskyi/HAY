@@ -7,8 +7,7 @@ import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 const route = useRoute()
-const toast = useToast();
-
+const toast = useToast()
 
 const { data, isPending, error } = useQuery({
   queryKey: ['product', route.params?.id],
@@ -17,11 +16,11 @@ const { data, isPending, error } = useQuery({
 
 const handleAddToCart = (newItem) => {
   useCartStore().addToCart(newItem)
-  toast.success("Product added to cart",{
+  toast.success('Product added to cart', {
     timeout: 3000,
     hideProgressBar: true,
-    showCloseButtonOnHover: true,
-  });
+    showCloseButtonOnHover: true
+  })
 }
 </script>
 
@@ -32,7 +31,8 @@ const handleAddToCart = (newItem) => {
     </div>
     <div class="max-w-96">
       <div class="mb-5 text-gray-600">Category</div>
-      <div class="text-4xl font-medium">{{ data?.name }}</div>
+      <div v-hoverable class="hoverable text-4xl font-medium">{{ data?.name }}</div>
+
       <div class="my-10 text-2xl text-gray-600">{{ data?.desc }}</div>
       <div class="text-2xl font-medium text-green-600">
         $ {{ data?.price }} (etc. VAT)
