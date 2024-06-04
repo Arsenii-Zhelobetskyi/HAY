@@ -4,7 +4,11 @@ import TheCarousel from './TheCarousel.vue'
 import { useCartStore } from '@/stores/cart'
 import { useQuery } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
+import { useToast } from 'vue-toastification'
+
 const route = useRoute()
+const toast = useToast();
+
 
 const { data, isPending, error } = useQuery({
   queryKey: ['product', route.params?.id],
@@ -13,6 +17,11 @@ const { data, isPending, error } = useQuery({
 
 const handleAddToCart = (newItem) => {
   useCartStore().addToCart(newItem)
+  toast.success("Product added to cart",{
+    timeout: 3000,
+    hideProgressBar: true,
+    showCloseButtonOnHover: true,
+  });
 }
 </script>
 

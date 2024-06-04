@@ -3,14 +3,22 @@ import TheCart from '../components/Cart/TheCart.vue'
 import { RouterLink, useRouter } from 'vue-router'
 import {decreaseProductQuantity} from '@/services/apiProducts.js'
 import { useCartStore } from '@/stores/cart'
+import {useToast} from 'vue-toastification'
+
 const cart = useCartStore()
 const router = useRouter()
+const toast = useToast();
 
 async function confirmCheckout() {
   const cartItems = cart.cart;
   for (const item of cartItems) {
      await decreaseProductQuantity(item.id, item.amount);
      cart.clearTheCart();
+     toast.success("The purchase is successful !",{
+       timeout: 3000,
+       hideProgressBar: true,
+       showCloseButtonOnHover: true,
+     });
   }
 }
 </script>
