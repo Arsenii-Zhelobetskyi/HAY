@@ -25,13 +25,26 @@ export async function signUp({ email, password }) {
   return data
 }
 
+export async function signInWithEmail(email) {
+  const { data, error } = await supabase.auth.signInWithOtp({
+    email,
+    options: {
+      shouldCreateUser: false,
+      emailRedirectTo: 'https://example.com/welcome'
+    }
+  })
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
 export async function logout() {
-  const { error } = await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut()
   if (error) throw new Error(error.massage)
 }
 
-export async function updateUser({email, password, data}){
-  const {data: userData, error} = await supabase.auth.updateUser({email,password,data});
-  if (error) throw new Error(error.message);
+export async function updateUser({ email, password, data }) {
+  const { data: userData, error } = await supabase.auth.updateUser({ email, password, data })
+  if (error) throw new Error(error.message)
   return userData
 }

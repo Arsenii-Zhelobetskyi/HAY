@@ -2,31 +2,31 @@
 import { ref, onMounted } from 'vue'
 import { getCurrentUser } from '@/services/apiAuth.js'
 import UserSettings from '@/components/Profile/UserSettings.vue'
-const user = ref(null);
-const loading = ref(true);
 
-const showWelcomeUser = ref(true);
+const user = ref(null)
+const loading = ref(true)
+
+const showWelcomeUser = ref(true)
 
 const goToSettings = () => {
-  showWelcomeUser.value = false;
-};
+  showWelcomeUser.value = false
+}
 
 onMounted(async () => {
-  user.value = await getCurrentUser();
-  loading.value = false;
+  user.value = await getCurrentUser()
+  loading.value = false
 })
 </script>
 
 <template>
   <div v-if="showWelcomeUser">
-  <div v-if="loading" class="text-2xl">
-  </div>
-  <div v-else-if="user" class="text-2xl animate-slide-in">
-    Welcome back, {{ user.email }} !
-    <button @click="goToSettings">
-      <span class="text-4xl">→</span>
-    </button>
-  </div>
+    <div v-if="loading" class="text-2xl"></div>
+    <div v-else-if="user" class="animate-slide-in text-2xl">
+      Welcome back, {{ user.email }} !
+      <button @click="goToSettings">
+        <span class="text-4xl">→</span>
+      </button>
+    </div>
   </div>
   <UserSettings v-else />
 </template>

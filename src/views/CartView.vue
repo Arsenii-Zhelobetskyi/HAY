@@ -1,8 +1,9 @@
 <script setup>
-import TheCart from '../components/Cart/TheCart.vue'
 import { RouterLink, useRouter } from 'vue-router'
-
 import { useCartStore } from '@/stores/cart'
+
+import TheCart from '../components/Cart/TheCart.vue'
+import MainButton from '../ui/MainButton.vue'
 const cart = useCartStore()
 const router = useRouter()
 
@@ -26,12 +27,8 @@ function confirmCheckout() {
           <div>
             Your total is <span class="font-medium text-green-600">$ {{ cart.totalPrice }}</span>
           </div>
-          <button
-            @click="confirmCheckout"
-            class="border-4 border-black bg-black px-20 py-4 font-medium text-white hover:border-gray-600 hover:bg-gray-600"
-          >
-            Checkout
-          </button>
+
+          <MainButton :function="confirmCheckout">Checkout</MainButton>
         </template>
         <div v-else>Your cart is empty</div>
         <RouterLink
