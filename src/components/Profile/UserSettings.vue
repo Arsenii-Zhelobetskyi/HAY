@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { getCurrentUser, logout, updateUser } from '@/services/apiAuth.js'
 import { getOrders } from '@/services/apiOrders.js'
+import OrdersHistory  from '@/components/Profile/OrdersHistory.vue'
 
 const user = ref(null);
 const orders = ref([]);
@@ -43,6 +44,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <!--todo clean-->
   <div class="animate-slide-in text-2xl">
     <div v-if="loading">
     </div>
@@ -57,21 +59,14 @@ onMounted(async () => {
       <div v-if="showSettings">
         <form @submit.prevent="updateUserSettings" class="grid">
           <label for="email">Email:</label>
-          <input type="email" id="email" v-model="newEmail" class="border border-gray-400 rounded-lg" required>
+          <input type="email" id="email" v-model="newEmail" class="border border-gray-400" required>
           <label for="password">New Password:</label>
-          <input type="password" id="password" v-model="newPassword" class="border border-gray-400 rounded-lg" required>
+          <input type="password" id="password" v-model="newPassword" class="border border-gray-400" required>
           <button class="hover:underline" type="submit">Save Changes</button>
           <button class="hover:underline" type="button" @click="toggleSettings">Cancel</button>
         </form>
       </div>
-      <div>
-        <h2>Your Orders:</h2>
-        <ul>
-          <li v-for="order in orders" :key="order.id">
-            Product ID: {{ order.product_id }}, Quantity: {{ order.products_bought }}, Total price: {{order.total_price}}
-          </li>
-        </ul>
-      </div>
+      <OrdersHistory/>
     </div>
   </div>
 </template>

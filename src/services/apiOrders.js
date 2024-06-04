@@ -35,11 +35,10 @@ export async function getOrders() {
     throw new Error('Fetch error');
   }
 
-  // Додаємо підсумкову ціну для кожного замовлення
   const ordersWithTotalPrice = await Promise.all(orders.map(async (order) => {
     const product = await getProduct(order.product_id);
     const totalPrice = product.price * order.products_bought;
-    return { ...order, total_price: totalPrice };
+    return { ...order, total_price: totalPrice, images: product.images, name: product.name };
   }));
 
   return ordersWithTotalPrice;
