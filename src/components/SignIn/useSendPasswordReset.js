@@ -5,6 +5,7 @@ export function useSendPasswordReset() {
   const {
     mutate: sendPasswordReset,
     isPending: sendPasswordResetIsPending,
+    isSuccess: sendPasswordResetIsSuccess,
     error: sendPasswordResetError
   } = useMutation({
     mutationFn: (email) => sendResetPasswordApi(email),
@@ -15,5 +16,10 @@ export function useSendPasswordReset() {
       console.log(error)
     }
   })
-  return { sendPasswordReset, sendPasswordResetIsPending, sendPasswordResetError }
+  return {
+    sendPasswordReset,
+    sendPasswordResetIsSuccess,
+    sendPasswordResetIsPending,
+    sendPasswordResetError
+  }
 }

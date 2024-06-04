@@ -9,10 +9,12 @@ import { z } from 'zod'
 
 import { useSignIn } from './useSignIn'
 import { useMagicLink } from './useMagicLink'
+import { useSendPasswordReset } from './useSendPasswordReset'
 
 import EmailInput from './EmailInput.vue'
 import PasswordInput from './PasswordInput.vue'
 import MagicLink from './MagicLink.vue'
+import ForgotPassword from './ForgotPassword.vue'
 const router = useRouter()
 
 const schema = toTypedSchema(
@@ -30,6 +32,12 @@ let submitted = false // show error only if submitted
 
 const { signIn, signInIsPending, signInError } = useSignIn()
 const { magicLink, magicLinkIsPending, magicLinkIsSuccess, magicLinkError } = useMagicLink()
+const {
+  sendPasswordReset,
+  sendPasswordResetIsPending,
+  sendPasswordResetIsSuccess,
+  sendPasswordResetError
+} = useSendPasswordReset()
 
 function onSuccess(values) {
   signIn({ email: values.email, password: values.password })
@@ -47,40 +55,48 @@ const onSubmit = handleSubmit(onSuccess, onInvalidSubmit)
 const emailEntered = ref(false)
 async function showPass() {
   emailEntered.value = await validateField('email')
+  if (emailEntered.value.valid) {
+    setStep('Password')
+  }
 }
-function goBack() {
-  //go back in password input
-  emailEntered.value.valid = false
+const step = ref('Email')
+function setStep(value) {
+  step.value = value
 }
 </script>
 
 <template>
   <form class="flex flex-col gap-8" @submit="onSubmit">
     <EmailInput
-      v-if="!emailEntered.valid"
+      v-if="!emailEntered.valid || (emailEntered.valid && step === 'Email')"
       :emailEntered="emailEntered"
       :submitted="submitted"
       name="email"
       :showPass="showPass"
     />
     <PasswordInput
-      v-if="emailEntered.valid && !magicLinkIsSuccess && !magicLinkError && !magicLinkIsPending"
-      :emailEntered="emailEntered"
+      v-if="emailEntered.valid && step === 'Password'"
       :submitted="submitted"
       name="password"
       :isSubmitting="isSubmitting"
       :signInIsPending="signInIsPending"
-      :goBack="goBack"
       :email="values.email"
       :goMagicLink="magicLink"
+      :goResetPassword="sendPasswordReset"
+      :setStep="setStep"
     />
     <MagicLink
-      v-if="magicLinkIsSuccess || magicLinkError || magicLinkIsPending"
+      v-if="step === 'MagicLink'"
       :magicLinkIsSuccess="magicLinkIsSuccess"
-      :magicLinkError="magicLinkError"
       :magicLinkIsPending="magicLinkIsPending"
+      :magicLinkError="magicLinkError"
     />
-
+    <ForgotPassword
+      v-if="step === 'PasswordReset'"
+      :sendPasswordResetIsSuccess="sendPasswordResetIsSuccess"
+      :sendPasswordResetIsPending="sendPasswordResetIsPending"
+      :sendPasswordResetError="sendPasswordResetError"
+    />
     <div
       v-motion="{
         initial: {

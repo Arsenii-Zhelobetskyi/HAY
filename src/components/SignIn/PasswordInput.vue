@@ -3,16 +3,16 @@ import { useField } from 'vee-validate'
 import MainButton from '../../ui/MainButton.vue'
 import MainInput from '@/ui/MainInput.vue'
 import { watch, ref } from 'vue'
-import { useSendPasswordReset } from './useSendPasswordReset'
+
 const props = defineProps([
-  'emailEntered',
   'submitted',
   'name',
   'isSubmitting',
   'signInIsPending',
-  'goBack',
   'goMagicLink',
-  'email'
+  'email',
+  'goResetPassword',
+  'setStep'
 ])
 
 const { valueEmail } = useField(() => 'email')
@@ -26,12 +26,16 @@ watch(
   { immediate: true }
 )
 
-// Forgot password
-const { sendPasswordReset, sendPasswordResetIsPending, sendPasswordResetError } =
-  useSendPasswordReset()
-
-function goResetPassword() {
-  sendPasswordReset(email.value)
+function handlePasswordReset() {
+  props.goResetPassword(email.value)
+  props.setStep('PasswordReset')
+}
+function handleMagicLink(email) {
+  props.goMagicLink(email)
+  props.setStep('MagicLink')
+}
+function handleGoBack() {
+  props.setStep('Email')
 }
 </script>
 <template>
@@ -58,14 +62,14 @@ function goResetPassword() {
       {{ isSubmitting || signInIsPending ? 'Submitting...' : 'Submit' }}
     </MainButton>
     <div class="flex justify-between text-xl font-thin">
-      <span class="hover:cursor-pointer hover:underline" @click="goResetPassword">
+      <span class="hover:cursor-pointer hover:underline" @click="handlePasswordReset">
         Forgot password ?
       </span>
-      <span class="hover:cursor-pointer hover:underline" @click="goBack"> Go back</span>
+      <span class="hover:cursor-pointer hover:underline" @click="handleGoBack"> Go back</span>
     </div>
     <div
       class="text-center text-2xl font-thin hover:cursor-pointer hover:underline"
-      @click="goMagicLink(email)"
+      @click="handleMagicLink(email)"
     >
       Use magic link
     </div>

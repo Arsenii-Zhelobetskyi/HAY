@@ -1,4 +1,4 @@
-import { useQueryClient, useMutation } from '@tanstack/vue-query'
+import { useMutation } from '@tanstack/vue-query'
 import { signInWithEmail } from '../../services/apiAuth'
 export function useMagicLink() {
   const {

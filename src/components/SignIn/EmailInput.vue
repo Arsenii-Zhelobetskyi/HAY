@@ -1,5 +1,4 @@
 <script setup>
- 
 import MainButton from '../../ui/MainButton.vue'
 import MainInput from '../../ui/MainInput.vue'
 const props = defineProps(['emailEntered', 'submitted', 'name', 'showPass'])
