@@ -9,13 +9,11 @@ const yValue = Math.random() * 300 - 200
 
 const initial = ref({
   y: yValue,
-  x: -100,
   opacity: 0
 })
 
 const enter = ref({
   y: 0,
-  x: 0,
   opacity: 1
 })
 </script>
