@@ -43,8 +43,8 @@ onMounted(async () => {
       <div>
         Your email: {{ user.email }}
         <div>
-          <button @click="toggleSettings" class="text-blue-500">Settings</button>
-          <button @click="handleLogout" class="text-red-500 ml-60">Logout</button>
+          <button @click="toggleSettings" class="text-blue-500 hover:underline">Settings</button>
+          <button @click="handleLogout" class="text-red-500 ml-60 hover:underline">Logout</button>
         </div>
       </div>
       <div v-if="showSettings">
@@ -53,8 +53,8 @@ onMounted(async () => {
           <input type="email" id="email" v-model="newEmail" class="border border-gray-400 rounded-lg" required>
           <label for="password">New Password:</label>
           <input type="password" id="password" v-model="newPassword" class="border border-gray-400 rounded-lg" required>
-          <button type="submit">Save Changes</button>
-          <button type="button" @click="toggleSettings">Cancel</button>
+          <button class="hover:underline" type="submit">Save Changes</button>
+          <button class="hover:underline" type="button" @click="toggleSettings">Cancel</button>
         </form>
       </div>
     </div>
