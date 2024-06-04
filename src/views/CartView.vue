@@ -1,7 +1,9 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
 import { decreaseProductQuantity } from '@/services/apiProducts.js'
+import { addOrder } from '@/services/apiOrders.js'
 import { useCartStore } from '@/stores/cart'
+import {getProduct} from '@/services/apiProducts.js'
 
 import TheCart from '../components/Cart/TheCart.vue'
 import MainButton from '../ui/MainButton.vue'
@@ -14,14 +16,17 @@ const toast = useToast()
 async function confirmCheckout() {
   const cartItems = cart.cart
   for (const item of cartItems) {
-    await decreaseProductQuantity(item.id, item.amount)
-    cart.clearTheCart()
-    toast.success('The purchase is successful !', {
-      timeout: 3000,
-      hideProgressBar: true,
-      showCloseButtonOnHover: true
-    })
+    const product = await getProduct(item.id);
+    const totalPrice = product.price * item.amount;
+    await decreaseProductQuantity(item.id, item.amount);
+    await addOrder(item.id, item.amount, totalPrice);
   }
+  toast.success('The purchase is successful !', {
+    timeout: 3000,
+    hideProgressBar: true,
+    showCloseButtonOnHover: true
+  })
+  cart.clearTheCart()
 }
 </script>
 
