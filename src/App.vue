@@ -14,7 +14,7 @@
 
   <RouterView />
   <div class="bg"></div>
-  <VueQueryDevtools />
+  <!-- <VueQueryDevtools /> -->
 </template>
 
 <script setup>

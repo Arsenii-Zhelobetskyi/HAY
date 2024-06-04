@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue'
 import { getCurrentUser, logout, updateUser } from '@/services/apiAuth.js'
 import { getOrders } from '@/services/apiOrders.js'
-import OrdersHistory  from '@/components/Profile/OrdersHistory.vue'
 
 const user = ref(null);
 const orders = ref([]);
@@ -32,6 +31,10 @@ const toggleSettings = () => {
   showSettings.value = !showSettings.value;
 };
 
+const reloadPage = () => {
+  location.reload();
+};
+
 onMounted(async () => {
   user.value = await getCurrentUser();
 
@@ -49,6 +52,9 @@ onMounted(async () => {
     <div v-if="loading">
     </div>
     <div v-else-if="user" class="font-thin">
+      <button @click="reloadPage">
+        <span class="text-2xl ">↑</span>Come back
+      </button>
       <div>
         Your email: {{ user.email }}
         <div>
@@ -66,7 +72,6 @@ onMounted(async () => {
           <button class="hover:underline" type="button" @click="toggleSettings">Cancel</button>
         </form>
       </div>
-      <OrdersHistory/>
     </div>
   </div>
 </template>
