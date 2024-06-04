@@ -10,7 +10,17 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useQuery } from '@tanstack/vue-query'
 import { getProducts } from '../services/apiProducts'
 import { useRoute } from 'vue-router'
-import { computed, watch } from 'vue'
+import { computed, watch, ref, onMounted } from 'vue'
+
+onMounted(() => {
+  isShow.value = false
+
+  if (!isPending.value) {
+    setTimeout(() => {
+      isShow.value = true
+    }, 2000)
+  }
+})
 
 const queryClient = useQueryClient()
 const route = useRoute()
@@ -27,17 +37,22 @@ const sortBy = computed(() => {
     : undefined
 })
 
+const isShow = ref(false)
+
 const { data, isPending } = useQuery({
   queryKey: ['products', page, filter, sortBy],
   queryFn: () => getProducts({ page: page.value, filter: filter.value, sortBy: sortBy.value })
 })
 
-setTimeout(() => {
-  isPending.value = false
-}, 3000)
+watch([isPending], () => {
+  if (!isPending.value) {
+    setTimeout(() => {
+      isShow.value = true
+    }, 1000)
+  }
+})
 
 const pageCount = computed(() => {
-  // console.log(data?.value?.count)
   return Math.ceil(data?.value?.count / PAGE_SIZE)
 })
 
@@ -65,14 +80,15 @@ watch([page, filter, sortBy, pageCount], () => {
       <TheProductsAside />
     </aside>
     <section class="col-span-3">
-      <transition name="fade">
-        <div v-if="isPending">
+      <transition name="transition" mode="out-in">
+        <div v-if="!isShow">
           <base-spinner></base-spinner>
         </div>
       </transition>
-      <transition name="fade">
-        <div v-if="!isPending">
-          <TheProducts :products="data?.products" :isPending="isPending" />
+
+      <transition name="transition" mode="out-in">
+        <div v-if="isShow">
+          <TheProducts :products="data?.products" :isShow="isShow" />
 
           <ThePagination :count="data?.count" :isPending="isPending" />
         </div>
@@ -82,19 +98,27 @@ watch([page, filter, sortBy, pageCount], () => {
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition:
-    opacity 3s,
-    transform 3s;
+.transition-enter-from,
+.transition-leave-to {
+  opacity: 0;
+  transform: translateY(-350px);
 }
 
-.fade-enter-from {
-  opacity: 0.6;
-  transform: translateY(50%);
+.transition-enter-active {
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
 }
-.fade-leave-to {
-  opacity: 0.2;
-  transform: translateY(40%);
+
+.transition-leave-active {
+  transition:
+    opacity 1s ease-in,
+    transform 1s ease-in;
+}
+
+.transition-enter-to,
+.transition-leave-from {
+  opacity: 1;
+  transform: translateY(-50px);
 }
 </style>

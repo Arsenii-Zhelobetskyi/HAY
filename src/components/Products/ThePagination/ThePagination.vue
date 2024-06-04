@@ -7,10 +7,12 @@ const props = defineProps(['count', 'isPending'])
 
 const isShow = ref(false)
 
-setTimeout(() => {
-  isShow.value = true
-}, 6000)
-console.log(isShow.value)
+if (props.isPending) {
+  setTimeout(() => {
+    isShow.value = true
+  }, 6000)
+  console.log(isShow.value)
+}
 
 const totalCount = ref(props.count)
 
