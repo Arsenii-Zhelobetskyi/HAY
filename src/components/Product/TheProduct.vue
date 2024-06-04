@@ -5,7 +5,6 @@ import { useCartStore } from '@/stores/cart'
 import { useQuery } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { ref } from 'vue';
 
 const route = useRoute()
 const toast = useToast();
