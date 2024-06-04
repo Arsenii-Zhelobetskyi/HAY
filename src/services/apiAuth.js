@@ -26,12 +26,21 @@ export async function signUp({ email, password }) {
 }
 
 export async function signInWithEmail(email) {
+  // magic link
   const { data, error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: false,
-      emailRedirectTo: 'https://example.com/welcome'
+      shouldCreateUser: false
     }
+  })
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export async function sendResetPassword(email) {
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: 'http://localhost:5173/reset-password'
   })
 
   if (error) throw new Error(error.message)

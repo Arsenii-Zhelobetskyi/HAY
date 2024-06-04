@@ -32,7 +32,6 @@ const { signIn, signInIsPending, signInError } = useSignIn()
 const { magicLink, magicLinkIsPending, magicLinkIsSuccess, magicLinkError } = useMagicLink()
 
 function onSuccess(values) {
-  console.log('test')
   signIn({ email: values.email, password: values.password })
   resetForm()
   submitted = false
@@ -53,10 +52,6 @@ function goBack() {
   //go back in password input
   emailEntered.value.valid = false
 }
-function handleMagicLink() {
-  // so that we can pass it to PasswordInput
-  magicLink(values.email)
-}
 </script>
 
 <template>
@@ -76,7 +71,8 @@ function handleMagicLink() {
       :isSubmitting="isSubmitting"
       :signInIsPending="signInIsPending"
       :goBack="goBack"
-      @use-magic-link="handleMagicLink"
+      :email="values.email"
+      :goMagicLink="magicLink"
     />
     <MagicLink
       v-if="magicLinkIsSuccess || magicLinkError || magicLinkIsPending"

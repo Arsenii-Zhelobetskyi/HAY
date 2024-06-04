@@ -1,9 +1,8 @@
 <script setup>
-import { useField } from 'vee-validate'
+ 
 import MainButton from '../../ui/MainButton.vue'
-
+import MainInput from '../../ui/MainInput.vue'
 const props = defineProps(['emailEntered', 'submitted', 'name', 'showPass'])
-const { value, errorMessage } = useField(() => props.name)
 </script>
 
 <template>
@@ -20,14 +19,11 @@ const { value, errorMessage } = useField(() => props.name)
     }"
     class="flex flex-col gap-8"
   >
-    <input
-      v-model="value"
+    <MainInput
+      :name="name"
       placeholder="test@example.com"
-      class="border-2 border-gray-600 px-5 py-4 text-2xl"
+      :hasErrors="submitted === true || emailEntered.errors"
     />
-    <div v-if="submitted === true || emailEntered.errors" class="font-bold text-red-600">
-      {{ errorMessage }}
-    </div>
     <MainButton type="button" additionalStyles="text-2xl font-normal" :function="showPass">
       Next
     </MainButton>
