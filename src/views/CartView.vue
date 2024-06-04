@@ -3,7 +3,7 @@ import { RouterLink, useRouter } from 'vue-router'
 import { decreaseProductQuantity } from '@/services/apiProducts.js'
 import { addOrder } from '@/services/apiOrders.js'
 import { useCartStore } from '@/stores/cart'
-import {getProduct} from '@/services/apiProducts.js'
+import { getProduct } from '@/services/apiProducts.js'
 
 import TheCart from '../components/Cart/TheCart.vue'
 import MainButton from '../ui/MainButton.vue'
@@ -16,10 +16,10 @@ const toast = useToast()
 async function confirmCheckout() {
   const cartItems = cart.cart
   for (const item of cartItems) {
-    const product = await getProduct(item.id);
-    const totalPrice = product.price * item.amount;
-    await decreaseProductQuantity(item.id, item.amount);
-    await addOrder(item.id, item.amount, totalPrice);
+    const product = await getProduct(item.id)
+    const totalPrice = product.price * item.amount
+    await decreaseProductQuantity(item.id, item.amount)
+    await addOrder(item.id, item.amount, totalPrice)
   }
   toast.success('The purchase is successful !', {
     timeout: 3000,
@@ -48,7 +48,7 @@ async function confirmCheckout() {
 
           <MainButton :function="confirmCheckout">Checkout</MainButton>
         </template>
-        <div v-else>Your cart is empty</div>
+        <div v-else v-hoverable class="hoverable">Your cart is empty</div>
         <RouterLink
           to="/products"
           class="border-4 border-gray-600 px-10 py-4 font-medium hover:bg-gray-600 hover:text-white"
