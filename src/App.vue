@@ -5,5 +5,6 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools'
 
 <template>
   <RouterView />
+  <div class="bg"></div>
   <VueQueryDevtools />
 </template>
