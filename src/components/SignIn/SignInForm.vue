@@ -22,7 +22,7 @@ const schema = toTypedSchema(
   })
 )
 
-const { errors, values, handleSubmit, resetForm, isSubmitting, validateField } = useForm({
+const { values, handleSubmit, resetForm, isSubmitting, validateField } = useForm({
   validationSchema: schema
 })
 
@@ -54,6 +54,7 @@ function goBack() {
   emailEntered.value.valid = false
 }
 function handleMagicLink() {
+  // so that we can pass it to PasswordInput
   magicLink(values.email)
 }
 </script>
@@ -106,9 +107,6 @@ function handleMagicLink() {
     </div>
     <div if="signInError?.message" class="font-bold text-red-600">
       {{ signInError?.message }}
-    </div>
-    <div>
-      {{ errors.value }}
     </div>
   </form>
 </template>
