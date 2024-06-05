@@ -1,7 +1,6 @@
-// globalDirectives.js
-
+// global cursor directive to handle hoverable elements
 import { gsap } from 'gsap'
-import { useCursorStore } from './stores/cursor'
+import { useCursorStore } from '../stores/cursor'
 
 export const hoverableDirective = {
   mounted(el) {
@@ -16,7 +15,6 @@ export const hoverableDirective = {
 
 function onMouseHover() {
   const store = useCursorStore()
-  console.log(store.getBigBall)
   gsap.to(store.getBigBall, { duration: 0.3, scale: 4 })
 }
 

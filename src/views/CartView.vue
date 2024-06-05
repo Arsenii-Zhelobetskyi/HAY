@@ -48,7 +48,7 @@ async function confirmCheckout() {
 
           <MainButton :function="confirmCheckout">Checkout</MainButton>
         </template>
-        <div v-else v-hoverable class="hoverable">Your cart is empty</div>
+        <div v-else v-hoverable>Your cart is empty</div>
         <RouterLink
           to="/products"
           class="border-4 border-gray-600 px-10 py-4 font-medium hover:bg-gray-600 hover:text-white"
