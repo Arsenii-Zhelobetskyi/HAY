@@ -24,7 +24,12 @@ onMounted(async () => {
 
 <template>
   <div class="container mx-auto p-4">
-    <button @click="reloadPage">
+    <button @click="reloadPage"
+            v-hoverable
+            v-motion="{
+                enter: {  y: 0 },
+                hovered: { y: -10}
+              }">
       <span class="text-2xl ">↑</span>Come back
     </button>
     <template v-if="!loading">

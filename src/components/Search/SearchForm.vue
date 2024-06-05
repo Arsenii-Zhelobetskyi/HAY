@@ -32,12 +32,12 @@ watch(searchQuery, async (newValue, oldValue) => {
       <input v-model="searchQuery" placeholder="enter product name." class="p-2 border-2 rounded-full mb-2 w-full" />
     </div>
 
-    <div class="w-full max-w-xl mt-8">
+    <div class="w-full max-w-xl mt-8 search-results-container">
       <ul>
-        <li
+        <li v-hoverable
           v-for="result in searchResults"
           :key="result.id"
-          class="flex items-center p-4 mb-2 bg-white drop-shadow-lg rounded-md"
+          class="flex h-20 items-center p-4 mb-2 bg-white drop-shadow-md rounded-md cursor-pointer"
           v-motion="{
             initial: { opacity: 0, y: 20 },
             enter: { opacity: 1, y: 0 }
@@ -52,3 +52,10 @@ watch(searchQuery, async (newValue, oldValue) => {
   </div>
 </template>
 
+<style>
+.search-results-container {
+  max-height: 600px;
+  max-width: 800px;
+  overflow-y: auto;
+}
+</style>
