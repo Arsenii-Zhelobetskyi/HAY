@@ -8,17 +8,17 @@ export async function fullTextSearch(product) {
     .limit(10)
 
   if (error) {
-    throw new Error("Search fail")
+    throw new Error('Search fail')
   }
 
+  const productsWithImages = await Promise.all(
+    data.map(async (product) => {
+      const images = product.images || []
+      const id = product.id
 
-  const productsWithImages = await Promise.all(data.map(async (product) => {
-    const images = product.images || [];
-    const id = product.id
+      return { ...product, image: images[0], product_id: id }
+    })
+  )
 
-    return { ...product, image: images[0], product_id: id }
-  }))
-
-  return productsWithImages;
+  return productsWithImages
 }
-

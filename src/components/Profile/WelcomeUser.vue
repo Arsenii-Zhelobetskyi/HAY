@@ -27,23 +27,27 @@ onMounted(async () => {
   <div v-if="showComponent === 'welcome'">
     <div v-if="loading" class="text-2xl"></div>
     <div v-else-if="user" class="animate-slide-in text-2xl">
-      <button v-hoverable
-              v-motion="{
-                enter: { scale: 1, x: 0 },
-                hovered: {scale: 1.2, x: -20}
-              }"
-              @click="goToOrderHistory"
-              class="mr-10 cursor-pointer">
-       Order History <span class="text-4xl">←</span>
+      <button
+        v-hoverable
+        v-motion="{
+          enter: { scale: 1, x: 0 },
+          hovered: { scale: 1.2, x: -20 }
+        }"
+        @click="goToOrderHistory"
+        class="mr-10"
+      >
+        Order History <span class="text-4xl">←</span>
       </button>
       Welcome back, {{ user.email }}!
-      <button v-hoverable
-              v-motion="{
-                enter: { scale: 1, x: 0 },
-                hovered: {scale: 1.2, x: 20}
-              }"
-              @click="goToSettings"
-              class="ml-10 cursor-pointer">
+      <button
+        v-hoverable
+        v-motion="{
+          enter: { scale: 1, x: 0 },
+          hovered: { scale: 1.2, x: 20 }
+        }"
+        @click="goToSettings"
+        class="ml-10 cursor-pointer"
+      >
         <span class="text-4xl">→</span> Settings
       </button>
     </div>
