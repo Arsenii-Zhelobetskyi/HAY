@@ -15,6 +15,8 @@ import { computed, watch, ref, onMounted } from 'vue'
 onMounted(() => {
   isShow.value = false
 
+  console.log(isPending.value)
+
   if (!isPending.value) {
     setTimeout(() => {
       isShow.value = true
@@ -44,8 +46,11 @@ const { data, isPending } = useQuery({
   queryFn: () => getProducts({ page: page.value, filter: filter.value, sortBy: sortBy.value })
 })
 
+console.log(isPending.value)
+
 watch([isPending], () => {
   if (!isPending.value) {
+    console.log(isPending.value)
     setTimeout(() => {
       isShow.value = true
     }, 1000)
@@ -80,7 +85,7 @@ watch([page, filter, sortBy, pageCount], () => {
       <TheProductsAside />
     </aside>
     <section class="col-span-3">
-      <transition name="transition" mode="out-in">
+      <transition name="transition" mode="in-out">
         <div v-if="!isShow">
           <base-spinner></base-spinner>
         </div>
@@ -89,7 +94,6 @@ watch([page, filter, sortBy, pageCount], () => {
       <transition name="transition" mode="out-in">
         <div v-if="isShow">
           <TheProducts :products="data?.products" :isShow="isShow" />
-
           <ThePagination :count="data?.count" :isPending="isPending" />
         </div>
       </transition>

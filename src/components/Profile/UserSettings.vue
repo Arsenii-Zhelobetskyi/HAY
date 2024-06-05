@@ -52,7 +52,12 @@ onMounted(async () => {
     <div v-if="loading">
     </div>
     <div v-else-if="user" class="font-thin">
-      <button @click="reloadPage">
+      <button v-hoverable
+              v-motion="{
+                enter: {  y: 0 },
+                hovered: { y: -10}
+              }"
+              @click="reloadPage">
         <span class="text-2xl ">↑</span>Come back
       </button>
       <div>
