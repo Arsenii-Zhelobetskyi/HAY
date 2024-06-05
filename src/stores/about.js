@@ -37,7 +37,7 @@ export const useAboutStore = defineStore('aboutStore', {
         },
         {
           id: 4,
-          title: '',
+          title: 'OUR ART',
           content:
             '“What I admire about art is the unexpected, the originality; architecture is of course the context and the home of what we make, and fashion has a wonderful dynamism to it, reflecting the spirit of the time and what’s happening right now. I would say that the best products we have done, they may exist somewhere in between these three environments, drawing from a little bit of everything.” — Rolf Hay',
           images: [

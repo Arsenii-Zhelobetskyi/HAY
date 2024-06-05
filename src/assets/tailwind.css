@@ -3,12 +3,9 @@
 @tailwind utilities;
 
 html {
-  transition: scroll 4s ease-in-out;
-}
-
-body {
   scroll-behavior: smooth;
 }
+
 .bg {
   background: #87878b;
   margin: 0;
