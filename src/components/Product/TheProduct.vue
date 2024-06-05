@@ -15,21 +15,21 @@ const { data, isPending, error } = useQuery({
 })
 
 const handleAddToCart = (newItem) => {
-  const isInCart = useCartStore().cart.some(item => item.id === newItem.id);
+  const isInCart = useCartStore().cart.some((item) => item.id === newItem.id)
   if (isInCart) {
-    useCartStore().deleteFromCart(newItem.id);
-    toast.success("Product removed from cart", {
+    useCartStore().deleteFromCart(newItem.id)
+    toast.success('Product removed from cart', {
       timeout: 3000,
       hideProgressBar: true,
-      showCloseButtonOnHover: true,
-    });
+      showCloseButtonOnHover: true
+    })
   } else {
-    useCartStore().addToCart(newItem);
-    toast.success("Product added to cart", {
+    useCartStore().addToCart(newItem)
+    toast.success('Product added to cart', {
       timeout: 3000,
       hideProgressBar: true,
-      showCloseButtonOnHover: true,
-    });
+      showCloseButtonOnHover: true
+    })
   }
 }
 </script>
@@ -41,7 +41,7 @@ const handleAddToCart = (newItem) => {
     </div>
     <div class="max-w-96">
       <div class="mb-5 text-gray-600">Category</div>
-      <div v-hoverable class="hoverable text-4xl font-medium">{{ data?.name }}</div>
+      <div v-hoverable class="text-4xl font-medium">{{ data?.name }}</div>
 
       <div class="my-10 text-2xl text-gray-600">{{ data?.desc }}</div>
       <div class="text-2xl font-medium text-green-600">
@@ -49,13 +49,17 @@ const handleAddToCart = (newItem) => {
         <span class="text-2xl text-gray-600">| In stock: {{ data?.quantity }}</span>
       </div>
       <button
+        v-hoverable
         class="mt-10 border-2 border-black bg-black px-24 py-4 text-2xl font-medium text-white hover:border-gray-600 hover:bg-gray-600"
         @click="handleAddToCart(data)"
       >
-        {{ useCartStore().cart.some(item => item.id === data?.id) ? 'Remove from cart' : 'Add to cart' }}
+        {{
+          useCartStore().cart.some((item) => item.id === data?.id)
+            ? 'Remove from cart'
+            : 'Add to cart'
+        }}
       </button>
     </div>
     <div class="relative h-96 w-96"></div>
   </div>
 </template>
-

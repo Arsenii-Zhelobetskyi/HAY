@@ -9,7 +9,7 @@ defineProps(['item'])
       <h1 class="mb-5 justify-center font-bold">
         {{ item.title }}
       </h1>
-      <p class="text-center">
+      <p v-hoverable class="text-center">
         {{ item.content }}
       </p>
     </div>
