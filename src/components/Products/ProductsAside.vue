@@ -9,7 +9,7 @@ const sortByOptions = [
 </script>
 
 <template>
-  <div>
+  <div class="fixed">
     <FilterRow />
     <SortBy :options="sortByOptions" />
   </div>

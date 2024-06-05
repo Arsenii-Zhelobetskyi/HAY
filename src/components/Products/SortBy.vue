@@ -28,16 +28,18 @@ function setSortBy(value) {
     <label class="text-2xl font-light">Sort</label>
     <div class="flex gap-2">
       <div
-        class="cursor-pointer text-2xl font-light hover:font-medium hover:underline"
+        class="text-2xl font-light hover:font-medium hover:underline"
         @click="setSortBy('reset')"
+        v-hoverable
       >
         All,
       </div>
       <div
         v-for="(option, index) in options"
         :key="index"
-        class="cursor-pointer text-2xl font-light hover:font-medium hover:underline"
+        class="text-2xl font-light hover:font-medium hover:underline"
         @click="setSortBy(option.value)"
+        v-hoverable
       >
         {{ option.label }}{{ index == options.length - 1 ? '.' : ',' }}
       </div>

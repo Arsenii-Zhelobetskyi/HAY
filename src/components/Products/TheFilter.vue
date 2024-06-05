@@ -24,8 +24,9 @@ function setFilter(filterField, value) {
 
 <template>
   <div
+    v-hoverable
     @click="setFilter(filterField, value)"
-    class="cursor-pointer text-2xl font-light hover:font-medium hover:underline"
+    class="text-2xl font-light hover:font-medium hover:underline"
   >
     <slot></slot>
   </div>
