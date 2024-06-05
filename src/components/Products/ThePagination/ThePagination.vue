@@ -5,14 +5,7 @@ import { defineProps, ref, watch } from 'vue'
 
 const props = defineProps(['count', 'isPending'])
 
-const isShow = ref(false)
-
-if (props.isPending) {
-  setTimeout(() => {
-    isShow.value = true
-  }, 6000)
-  console.log(isShow.value)
-}
+console.log('isPending ', props.isPending)
 
 const totalCount = ref(props.count)
 
@@ -30,7 +23,16 @@ const { pagination, goBack, goForward, currentPage, Dots, changePosition } = use
 </script>
 
 <template>
-  <div v-if="isShow" class="mb-20 mt-8 flex items-center justify-center text-2xl">
+  <div
+    v-if="!isPending"
+    v-motion
+    :initial="{ opacity: 0 }"
+    :enter="{ opacity: 1 }"
+    :leave="{ opacity: 0 }"
+    :duration="1500"
+    :delay="4000"
+    class="mb-20 mt-8 flex items-center justify-center text-2xl"
+  >
     <div class="flex items-center justify-center gap-14">
       <div class="cursor-pointer px-4 py-2 font-medium hover:bg-gray-200" @click="goBack">
         &#x3c; Previous
