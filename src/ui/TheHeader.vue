@@ -26,3 +26,19 @@ const cart = useCartStore()
     </nav>
   </header>
 </template>
+
+<style scoped>
+nav a {
+  position: relative;
+  line-height: 5rem;
+  text-align: center;
+  flex-basis: 33.33%;
+  transition: all 0.6s ease-in-out;
+}
+
+nav a:hover {
+  transform: translateY(5px);
+  background-color: rgb(75 85 99);
+  color: rgb(255 255 255);
+}
+</style>
