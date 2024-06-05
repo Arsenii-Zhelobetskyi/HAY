@@ -7,62 +7,6 @@ import AuthenticatedLayout from '@/Authenticated/AuthenticatedLayout.vue'
 import { useQueryClient } from '@tanstack/vue-query'
 import { getCurrentUser } from '@/services/apiAuth'
 
-// const router = createRouter({
-//   history: createWebHistory(import.meta.env.BASE_URL),
-//   routes: [
-//     {
-//       path: '/',
-//       redirect: '/products'
-//     },
-//     {
-//       path: '/products',
-//       name: 'Products',
-//       component: ProductsView
-//     },
-//     {
-//       path: '/about',
-//       name: 'about',
-
-//       component: () => import('../views/AboutView.vue')
-//     },
-//     {
-//       path: '/search',
-//       name: 'search',
-//       component: () => import('../views/SearchView.vue')
-//     },
-//     {
-//       path: '/cart',
-//       name: 'cart',
-//       component: () => import('../views/CartView.vue')
-//     },
-//     {
-//       path: '/checkout',
-//       name: 'checkout',
-//       component: () => import('../views/CheckoutView.vue')
-//     },
-//     {
-//       path: '/product/:id',
-//       name: 'product',
-//       component: () => import('../views/ProductView.vue')
-//     },
-//     {
-//       path: '/:pathMatch(.*)*',
-//       name: 'not-found',
-//       component: () => import('../views/NotFoundView.vue')
-//     },
-//     {
-//       path: '/sign-in',
-//       name: 'sign-in',
-//       component: SignInView
-//     },
-//     {
-//       path: '/sign-up',
-//       name: 'sign-up',
-//       component: SignUpView
-//     }
-//   ]
-// })
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -133,6 +77,11 @@ const router = createRouter({
           path: '/reset-password',
           name: 'reset-password',
           component: () => import('../views/ResetPasswordView.vue')
+        },
+        {
+          path: '/contact',
+          name: 'contact',
+          component: () => import('../views/ContactView.vue')
         },
         {
           path: '/:pathMatch(.*)*',

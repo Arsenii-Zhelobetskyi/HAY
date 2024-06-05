@@ -10,11 +10,14 @@ export const hoverableDirective = {
   unmounted(el) {
     el.removeEventListener('mouseover', onMouseHover)
     el.removeEventListener('mouseout', onMouseHoverOut)
+    const store = useCursorStore()
+    gsap.to(store.getBigBall, { duration: 0.3, scale: 1 })
   }
 }
 
 function onMouseHover() {
   const store = useCursorStore()
+
   gsap.to(store.getBigBall, { duration: 0.3, scale: 4 })
 }
 
