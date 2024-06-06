@@ -51,29 +51,3 @@ export async function fullTextSearchOnStores({ searchQuery, page }) {
 
   return data
 }
-
-export async function fullTextSearchOnStores({ searchQuery, page }) {
-  if (!searchQuery) {
-    return []
-  }
-  let query = supabase
-    .from('stores')
-    .select()
-    .or(
-      `name.ilike.%${searchQuery}%,address.ilike.%${searchQuery}%,city.ilike.%${searchQuery}%,country.ilike.%${searchQuery}%`
-    )
-    .limit(10)
-  if (page) {
-    const from = (page - 1) * PAGE_SIZE
-    const to = from + PAGE_SIZE - 1
-
-    query = query.range(from, to)
-  }
-
-  const { data, error } = await query
-  if (error) {
-    throw new Error(error)
-  }
-
-  return data
-}
