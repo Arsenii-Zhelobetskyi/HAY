@@ -1,12 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { getCurrentUser, logout, updateUser } from '@/services/apiAuth.js'
-import { getOrders } from '@/services/apiOrders.js'
+import { ref, onMounted } from 'vue';
+import { getCurrentUser, logout, updatePassword, updateEmail } from '@/services/apiAuth.js';
 
 const user = ref(null);
-const orders = ref([]);
 const loading = ref(true);
 const showSettings = ref(false);
+const showEmailForm = ref(false);
+const showPasswordForm = ref(false);
 const newEmail = ref('');
 const newPassword = ref('');
 
@@ -15,13 +15,25 @@ const handleLogout = async () => {
   location.reload();
 };
 
-const updateUserSettings = async () => {
+const updateUserEmail = async () => {
   try {
-    const updatedUser = await updateUser({ email: newEmail.value, password: newPassword.value });
+    if (newEmail.value) {
+      await updateEmail(newEmail.value);
+      user.value = await getCurrentUser();
+      showEmailForm.value = false;
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
-    user.value = updatedUser;
-    showSettings.value = false;
-    location.reload();
+const updateUserPassword = async () => {
+  try {
+    if (newPassword.value) {
+      await updatePassword(newPassword.value);
+      user.value = await getCurrentUser();
+      showPasswordForm.value = false;
+    }
   } catch (error) {
     console.error(error.message);
   }
@@ -31,34 +43,34 @@ const toggleSettings = () => {
   showSettings.value = !showSettings.value;
 };
 
-const reloadPage = () => {
-  location.reload();
+const toggleEmailForm = () => {
+  showEmailForm.value = !showEmailForm.value;
+  if (showEmailForm.value) {
+    showPasswordForm.value = false;
+  }
+};
+
+const togglePasswordForm = () => {
+  showPasswordForm.value = !showPasswordForm.value;
+  if (showPasswordForm.value) {
+    showEmailForm.value = false;
+  }
 };
 
 onMounted(async () => {
   user.value = await getCurrentUser();
-
-  if (user.value) {
-    orders.value = await getOrders();
-  }
-
   loading.value = false;
 });
 </script>
 
 <template>
-  <!--todo clean-->
   <div class="animate-slide-in text-2xl">
-    <div v-if="loading">
-    </div>
+    <div v-if="loading"></div>
     <div v-else-if="user" class="font-thin">
       <button v-hoverable
-              v-motion="{
-                enter: {  y: 0 },
-                hovered: { y: -10}
-              }"
-              @click="reloadPage">
-        <span class="text-2xl ">↑</span>Come back
+              v-motion="{ enter: { y: 0 }, hovered: { y: -10 } }"
+              @click="$emit('back')">
+        <span class="text-2xl">↑</span> Come back
       </button>
       <div>
         Your email: {{ user.email }}
@@ -68,18 +80,39 @@ onMounted(async () => {
         </div>
       </div>
       <div v-if="showSettings">
-        <form @submit.prevent="updateUserSettings" class="grid">
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="newEmail" class="border border-gray-400" required>
-          <label for="password">New Password:</label>
-          <input type="password" id="password" v-model="newPassword" class="border border-gray-400" required>
-          <button class="hover:underline" type="submit">Save Changes</button>
-          <button class="hover:underline" type="button" @click="toggleSettings">Cancel</button>
+        <div>
+          <button
+            v-motion="{
+            initial: {y:-10},
+            enter: {y:0},
+          }"
+            @click="toggleEmailForm"
+            class="text-blue-500 hover:underline">Change Email
+          </button>
+        </div>
+        <div>
+          <button
+            v-motion="{
+            initial: {y:-20},
+            enter: {y:0},
+          }"
+            @click="togglePasswordForm"
+            class="text-blue-500 hover:underline">Change Password
+          </button>
+        </div>
+        <form v-if="showEmailForm" @submit.prevent="updateUserEmail" class="grid">
+          <label for="email">new email:</label>
+          <input type="email" id="email" v-model="newEmail" class="border border-gray-400">
+          <button class="hover:underline" type="submit">Save Email</button>
+          <button class="hover:underline" type="button" @click="toggleEmailForm">Cancel</button>
+        </form>
+        <form v-if="showPasswordForm" @submit.prevent="updateUserPassword" class="grid">
+          <label for="password">new password:</label>
+          <input type="password" id="password" v-model="newPassword" class="border border-gray-400">
+          <button class="hover:underline" type="submit">Save Password</button>
+          <button class="hover:underline" type="button" @click="togglePasswordForm">Cancel</button>
         </form>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-</style>

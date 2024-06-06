@@ -17,6 +17,10 @@ const goToOrderHistory = () => {
   showComponent.value = 'orderHistory'
 }
 
+const goToWelcome = () => {
+  showComponent.value = 'welcome'
+}
+
 onMounted(async () => {
   user.value = await getCurrentUser()
   loading.value = false
@@ -52,8 +56,8 @@ onMounted(async () => {
       </button>
     </div>
   </div>
-  <UserSettings v-else-if="showComponent === 'settings'" />
-  <OrdersHistory v-else-if="showComponent === 'orderHistory'" />
+  <UserSettings v-else-if="showComponent === 'settings'" @back="goToWelcome" />
+  <OrdersHistory v-else-if="showComponent === 'orderHistory'" @back="goToWelcome" />
 </template>
 
 <style scoped>
@@ -73,3 +77,4 @@ onMounted(async () => {
   animation-fill-mode: forwards;
 }
 </style>
+
