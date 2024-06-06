@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 html {
-  transition: scroll 4s ease-in-out;
-}
-
-body {
   scroll-behavior: smooth;
 }
 a {

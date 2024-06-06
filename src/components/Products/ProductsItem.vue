@@ -3,12 +3,12 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 const router = useRouter()
-defineProps(['item', 'isShow'])
+const props = defineProps(['item', 'isShow', 'number'])
 
-const yValue = Math.random() * 300 - 200
+const delayValue = props.number * 300
 
 const initial = ref({
-  y: yValue,
+  y: 500,
   opacity: 0
 })
 
@@ -24,7 +24,8 @@ const enter = ref({
     v-motion
     :initial="initial"
     :enter="enter"
-    :duration="1500"
+    :duration="1800"
+    :delay="delayValue"
     class="container flex flex-col hover:cursor-pointer"
     @click="router.push(`/product/${item.id}`)"
   >

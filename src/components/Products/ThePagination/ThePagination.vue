@@ -5,8 +5,6 @@ import { defineProps, ref, watch } from 'vue'
 
 const props = defineProps(['count', 'isPending'])
 
-console.log('isPending ', props.isPending)
-
 const totalCount = ref(props.count)
 
 watch(

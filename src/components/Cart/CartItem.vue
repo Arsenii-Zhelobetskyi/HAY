@@ -2,8 +2,16 @@
 import { defineProps, ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
 const props = defineProps(['item'])
-const amount = ref(1)
+
+const amount = ref(props.item.amount)
+console.log(amount.value)
 const cart = useCartStore()
+
+const deleteProduct = () => {
+  amount.value = 0
+  cart.deleteFromCart(props.item.id)
+}
+
 const addAmount = (id) => {
   amount.value++
   cart.addAmount(id, amount)
@@ -12,7 +20,6 @@ const removeAmount = (id) => {
   amount.value--
   cart.deleteAmount(id, amount)
 }
-console.log(props.item.images[0])
 </script>
 <template>
   <div class="grid grid-cols-4 gap-6">
@@ -40,7 +47,7 @@ console.log(props.item.images[0])
         >
           -
         </button>
-        <input v-model="amount" class="max-w-9 text-center" />
+        <input v-model="amount" class="max-w-9 text-center" readonly />
         <button
           class="h-10 w-10 border-2 hover:bg-gray-200 disabled:bg-gray-200"
           @click="addAmount(item.id)"
@@ -53,10 +60,7 @@ console.log(props.item.images[0])
     <div class="flex items-center justify-center text-3xl">
       <div class="relative flex flex-col">
         $ {{ item.price * amount }}
-        <button
-          class="absolute top-20 text-gray-600 hover:underline"
-          @click="cart.deleteFromCart(item.id)"
-        >
+        <button class="absolute top-20 text-gray-600 hover:underline" @click="deleteProduct()">
           remove
         </button>
       </div>

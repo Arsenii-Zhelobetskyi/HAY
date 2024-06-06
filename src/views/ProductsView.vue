@@ -48,7 +48,7 @@ watch([isPending], () => {
   if (!isPending.value) {
     setTimeout(() => {
       isShow.value = true
-    }, 1000)
+    }, 2000)
   }
 })
 
@@ -80,14 +80,14 @@ watch([page, filter, sortBy, pageCount], () => {
       <TheProductsAside />
     </aside>
     <section class="col-span-3">
-      <transition name="transition" mode="in-out">
-        <div v-if="!isShow">
+      <transition name="transition" mode="out-in">
+        <div v-show="!isShow">
           <base-spinner></base-spinner>
         </div>
       </transition>
 
-      <transition name="transition" mode="out-in">
-        <div v-if="isShow">
+      <transition name="transition" mode="in-out">
+        <div v-show="isShow">
           <TheProducts :products="data?.products" :isShow="isShow" />
           <ThePagination :count="data?.count" :isPending="isPending" />
         </div>
@@ -100,19 +100,19 @@ watch([page, filter, sortBy, pageCount], () => {
 .transition-enter-from,
 .transition-leave-to {
   opacity: 0;
-  transform: translateY(-350px);
+  transform: translateY(-850px);
 }
 
 .transition-enter-active {
   transition:
-    opacity 0.5s ease-out,
-    transform 0.5s ease-out;
+    opacity 1.5s ease-out,
+    transform 1.5s ease-out;
 }
 
 .transition-leave-active {
   transition:
-    opacity 1s ease-in,
-    transform 1s ease-in;
+    opacity 1.5s ease-in,
+    transform 1.5s ease-in;
 }
 
 .transition-enter-to,

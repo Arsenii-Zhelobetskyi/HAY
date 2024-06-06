@@ -5,7 +5,19 @@ import TheArrow from '../ui/TheArrow.vue'
 
 <template>
   <main class="grid grid-cols-3 font-normal">
-    <section class="col-span-1 flex items-center justify-center px-10 pb-20 pt-8">
+    <section
+      v-motion
+      :initial="{
+        opacity: 0
+      }"
+      :enter="{
+        opacity: 1,
+        transition: {
+          duration: 2000
+        }
+      }"
+      class="col-span-1 flex items-center justify-center px-10 pb-20 pt-8"
+    >
       <div
         class="flex max-w-96 flex-col items-center justify-center gap-10 text-2xl font-light text-gray-600"
       >
