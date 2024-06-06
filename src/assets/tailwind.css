@@ -9,6 +9,9 @@ html {
 body {
   scroll-behavior: smooth;
 }
+a {
+  cursor: none;
+}
 .bg {
   background: #87878b;
   margin: 0;

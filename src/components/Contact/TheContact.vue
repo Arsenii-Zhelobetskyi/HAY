@@ -1,84 +1,111 @@
 <script setup>
-import MainInput from '@/ui/MainInput.vue'
+import { ref, watch, watchEffect } from 'vue'
+import { useGeo } from '@/components/Contact/useGeo'
+import { useQueryClient } from '@tanstack/vue-query'
 
-const phoneData = [
-  {
-    title: 'Germany & EU',
-    phones: ['+49 (221) 5481 6139', '+49 (152) 5841 5396']
-  },
-  {
-    title: 'UK',
-    phones: ['+44 (792) 9671 008']
-  },
-  {
-    title: 'Scandinavia (FIN)',
-    phones: ['+358 (40) 556 5883']
-  },
-  {
-    title: 'Asia (CHN)',
-    phones: ['+86 (137) 9531 1193']
+import { toTypedSchema } from '@vee-validate/zod'
+import { z } from 'zod'
+import { useForm } from 'vee-validate'
+
+import MainInput from '@/ui/MainInput.vue'
+import Results from './Results.vue'
+import ContactInfo from './ContactInfo.vue'
+
+const props = defineProps([
+  'searchStores',
+  'searchStoresIsSuccess',
+  'searchStoresIsPending',
+  'searchStoresError'
+])
+
+const queryClient = useQueryClient()
+
+const schema = toTypedSchema(
+  z.object({
+    searchQuery: z.string().min(1)
+  })
+)
+
+const { values, setFieldValue, meta } = useForm({
+  validationSchema: schema
+})
+const { getLocationIsSuccess } = useGeo()
+const currentPage = ref(1)
+
+function updatePage(value) {
+  currentPage.value = value
+}
+
+watchEffect(() => {
+  //to use your location to find store
+  if (getLocationIsSuccess.value) {
+    const country = queryClient.getQueryData(['location'])?.country?.name
+    if (country) setFieldValue('searchQuery', country)
   }
-]
-const emailData = {
-  title: 'Write us at',
-  email: 'mail@vueDoIt.com'
+})
+
+function submit() {
+  props.searchStores({ searchQuery: values.searchQuery })
+  currentPage.value = 1
 }
-const socialData = {
-  title: 'Socials',
-  socials: [
-    { name: 'Twitter', link: 'https://www.twitter.com/' },
-    { name: 'Facebook', link: 'https://www.facebook.com/' },
-    { name: 'Instagram', link: 'https://www.instagram.com/' }
-  ]
-}
+
+// delay search until user stops typing
+
+const debounceTimeout = ref(null)
+
+watch(
+  () => values.searchQuery,
+  (newQuery) => {
+    if (debounceTimeout.value) {
+      clearTimeout(debounceTimeout.value)
+    }
+    debounceTimeout.value = setTimeout(() => {
+      submit()
+    }, 500)
+  }
+)
 </script>
 <template>
   <div class="grid grid-cols-2">
-    <div>
-      <h1 class="mb-10 text-5xl font-medium">
+    <div class="flex h-[88vh] flex-col gap-10">
+      <h1
+        class="text-5xl font-medium"
+        v-hoverable
+        v-motion
+        :initial="{
+          y: -100,
+          opacity: 0
+        }"
+        :enter="{
+          y: 0,
+          opacity: 1,
+          transition: {
+            type: 'spring',
+            stiffness: 250,
+            damping: 25,
+            mass: 0.5
+          }
+        }"
+      >
         Got any questions? <br />
         Contact us! <br />
         Or look out for our store.
       </h1>
-      <MainInput placeholder="Search for our St0rE" />
+      <MainInput name="searchQuery" placeholder="Search for our St0rE" />
+
+      <Results
+        :currentPage="currentPage"
+        :searchStores="searchStores"
+        :searchQuery="values.searchQuery"
+        :searchStoresIsSuccess="searchStoresIsSuccess"
+        :searchStoresIsPending="searchStoresIsPending"
+        :searchStoresError="searchStoresError"
+        :updatePage="updatePage"
+        :dirty="meta.dirty"
+      />
     </div>
     <div class="text-right">
-      <div
-        v-hoverable
-        v-motion="{
-          initial: {
-            y: 100,
-            opacity: 0
-          },
-          enter: {
-            y: 0,
-            opacity: 1
-          }
-        }"
-        v-for="(data, idx) in phoneData"
-        :key="idx"
-        class="mb-10"
-      >
-        <p class="mb-2 text-xl font-thin uppercase">{{ data.title }}</p>
-        <h1 v-for="(phone, phoneId) in data.phones" :key="phoneId" class="text-4xl font-medium">
-          {{ phone }}
-        </h1>
-      </div>
-      <div class="mb-10">
-        <p class="mb-2 text-xl font-thin uppercase">{{ emailData.title }}</p>
-        <h1 class="text-4xl font-medium">{{ emailData.email }}</h1>
-      </div>
-      <div>
-        <p class="mb-2 text-xl font-thin uppercase">{{ socialData.title }}</p>
-        <a
-          v-for="(social, socialId) in socialData.socials"
-          :key="socialId"
-          class="block text-4xl font-medium"
-          :href="social.link"
-        >
-          {{ social.name }}
-        </a>
-      </div>
+      <ContactInfo />
     </div>
   </div>
 </template>
