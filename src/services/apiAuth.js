@@ -54,6 +54,16 @@ export async function updatePassword(newPassword) {
   if (error) throw new Error(error.message)
   return data
 }
+
+export async function updateEmail(newEmail) {
+  const { data, error } = await supabase.auth.updateUser({
+    email: newEmail
+  })
+
+  if (error) throw new Error(error.message)
+  return data
+}
+
 export async function logout() {
   const { error } = await supabase.auth.signOut()
   if (error) throw new Error(error.massage)
