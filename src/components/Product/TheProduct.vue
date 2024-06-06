@@ -12,10 +12,8 @@ const toast = useToast()
 const cartStore = useCartStore()
 
 onMounted(() => {
-  const storedAmount = localStorage.getItem(`amount-${route.params.id}`)
-  if (storedAmount) {
-    amount.value = parseInt(storedAmount)
-  }
+  const item = cartStore.cart.find((item) => item.id === route.params?.id)
+  amount.value = item ? item.amount : 0
 })
 
 const { data } = useQuery({
@@ -26,7 +24,7 @@ const { data } = useQuery({
 const amount = ref(null)
 
 watch(amount, (newAmount) => {
-  localStorage.setItem(`amount-${route.params.id}`, newAmount)
+  return newAmount
 })
 
 const isInCart = (newItem) => {
@@ -115,7 +113,7 @@ const removeAmount = (id) => {
             <button class="little-btn" @click="removeAmount(data.id)" :disabled="amount < 2">
               -
             </button>
-            <input v-model="amount" class="max-w-9 text-center" />
+            <input v-model="amount" class="max-w-9 text-center" readonly />
             <button
               class="little-btn"
               @click="addAmount(data.id)"

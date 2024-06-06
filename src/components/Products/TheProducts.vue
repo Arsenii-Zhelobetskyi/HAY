@@ -8,10 +8,11 @@ defineProps(['products', 'isShow'])
   <div class="grid grid-cols-3 gap-6 gap-y-8">
     <ProductsItem
       v-magnetic
-      v-for="productsItem in products"
+      v-for="(productsItem, index) in products"
       :key="productsItem.id"
       :item="productsItem"
       :isShow="isShow"
+      :number="index"
     />
   </div>
 </template>
