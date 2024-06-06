@@ -15,8 +15,6 @@ import { computed, watch, ref, onMounted } from 'vue'
 onMounted(() => {
   isShow.value = false
 
-  console.log(isPending.value)
-
   if (!isPending.value) {
     setTimeout(() => {
       isShow.value = true
@@ -45,8 +43,6 @@ const { data, isPending } = useQuery({
   queryKey: ['products', page, filter, sortBy],
   queryFn: () => getProducts({ page: page.value, filter: filter.value, sortBy: sortBy.value })
 })
-
-console.log(isPending.value)
 
 watch([isPending], () => {
   if (!isPending.value) {

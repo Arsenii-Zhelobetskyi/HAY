@@ -1,9 +1,15 @@
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, watch } from 'vue'
 import { useCartStore } from '@/stores/cart'
 const props = defineProps(['item'])
-const amount = ref(1)
+
+const amount = ref(props.item.amount)
 const cart = useCartStore()
+
+watch(amount, (newAmount) => {
+  localStorage.setItem(`amount-${props.item.id}`, newAmount)
+})
+
 const addAmount = (id) => {
   amount.value++
   cart.addAmount(id, amount)
