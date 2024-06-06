@@ -50,7 +50,7 @@ onMounted(async () => {
           hovered: { scale: 1.2, x: 20 }
         }"
         @click="goToSettings"
-        class="ml-10 cursor-pointer"
+        class="ml-10"
       >
         <span class="text-4xl">→</span> Settings
       </button>
@@ -77,4 +77,3 @@ onMounted(async () => {
   animation-fill-mode: forwards;
 }
 </style>
-

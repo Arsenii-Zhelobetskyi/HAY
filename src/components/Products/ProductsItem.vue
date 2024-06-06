@@ -26,7 +26,7 @@ const enter = ref({
     :enter="enter"
     :duration="1800"
     :delay="delayValue"
-    class="container flex flex-col hover:cursor-pointer"
+    class="container flex flex-col"
     @click="router.push(`/product/${item.id}`)"
   >
     <div class="info-container flex justify-between">
