@@ -15,6 +15,8 @@ import EmailInput from './EmailInput.vue'
 import PasswordInput from './PasswordInput.vue'
 import MagicLink from './MagicLink.vue'
 import ForgotPassword from './ForgotPassword.vue'
+import GoogleSignIn from './GoogleSignIn.vue'
+
 const router = useRouter()
 
 const schema = toTypedSchema(
@@ -97,6 +99,7 @@ function setStep(value) {
       :sendPasswordResetIsPending="sendPasswordResetIsPending"
       :sendPasswordResetError="sendPasswordResetError"
     />
+    <GoogleSignIn v-if="!emailEntered.valid || (emailEntered.valid && step === 'Email')" />
     <div
       v-motion="{
         initial: {

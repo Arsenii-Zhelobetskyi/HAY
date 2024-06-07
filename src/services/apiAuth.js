@@ -74,3 +74,12 @@ export async function updateUser({ email, password, data }) {
   if (error) throw new Error(error.message)
   return userData
 }
+
+export async function getGoogleData() {
+  await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `http://example.com/auth/callback`
+    }
+  })
+}
