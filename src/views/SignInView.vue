@@ -1,6 +1,7 @@
 <script setup>
 import sidebarSignIn from '@/assets/sidebar-signIn.jpg'
 import SignInForm from '@/components/SignIn/SignInForm.vue'
+import WelcomeMessage from '@/ui/WelcomeMessage.vue'
 </script>
 
 <template>
@@ -13,9 +14,11 @@ import SignInForm from '@/components/SignIn/SignInForm.vue'
       />
     </aside>
     <section class="col-span-2 flex items-center justify-center px-6 pb-20 pt-8">
-      <div class="flex max-w-96 flex-col gap-8">
-        <h1 class="text-center text-4xl font-medium">Welcome to My App</h1>
-        <h1 class="text-center text-4xl font-medium">Sign in</h1>
+      <div class="flex max-w-96 flex-col items-center gap-8">
+        <WelcomeMessage>
+          <h1 class="text-center text-4xl font-medium">Welcome to My App</h1>
+          <h1 class="text-center text-4xl font-medium">Sign in</h1>
+        </WelcomeMessage>
         <SignInForm />
       </div>
     </section>

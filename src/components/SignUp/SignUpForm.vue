@@ -68,11 +68,22 @@ const onSubmit = handleSubmit(onSuccess, onInvalidSubmit)
     <MainButton :disabled="isSubmitting" additionalStyles="text-2xl font-normal">
       {{ isSubmitting || signUpIsPending ? 'Submitting...' : 'Submit' }}
     </MainButton>
-    <div class="text-center text-2xl font-thin">
+    <div
+      v-motion="{
+        initial: {
+          y: 100,
+          opacity: 0
+        },
+        enter: {
+          y: 0,
+          opacity: 1
+        }
+      }"
+      class="text-center text-2xl font-thin"
+      v-hoverable
+    >
       &#8212;
-      <span class="hover:cursor-pointer hover:underline" @click="router.push('/sign-in')"
-        >Sign in</span
-      >
+      <span class="hover:underline" @click="router.push('/sign-in')">Sign in</span>
       &#8212;
     </div>
     <div if="signInError?.message" class="font-bold text-red-600">

@@ -110,11 +110,10 @@ function setStep(value) {
       }"
       class="text-center text-2xl font-thin"
       v-if="!magicLinkIsSuccess && !magicLinkError && !magicLinkIsPending"
+      v-hoverable
     >
       &#8212;
-      <span class="hover:cursor-pointer hover:underline" @click="router.push('/sign-up')"
-        >Sign up</span
-      >
+      <span class="hover:underline" @click="router.push('/sign-up')">Sign up</span>
       &#8212;
     </div>
     <div if="signInError?.message" class="font-bold text-red-600">
