@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { fullTextSearch } from '@/services/apiSearch.js'
 import { getCategories } from '@/services/apiProducts.js'
-import { useMotion } from '@vueuse/motion'
+
 
 const router = useRouter()
 const searchResults = ref([])
@@ -74,20 +74,21 @@ watch(
         <li
           v-for="result in searchResults"
           :key="result.id"
-          class="mb-2 flex h-20 cursor-pointer items-center rounded-md bg-white p-4 drop-shadow-md"
+          class="mb-2 flex h-32 cursor-pointer items-center rounded-md bg-white p-4 drop-shadow-md"
           v-motion="{
             initial: { opacity: 0, y: 20 },
             enter: { opacity: 1, y: 0 }
           }"
           @click="goToProduct(result.product_id)"
         >
-          <img v-if="result.image" :src="result.image" alt="product img" class="mr-2 h-8 w-8" />
-          {{ result.name }}
+          <img v-if="result.image" :src="result.image" alt="product img" class="mr-4 h-20 w-20 rounded-md" />
+          <span class="text-lg">{{ result.name }}</span>
         </li>
       </ul>
     </div>
   </div>
 </template>
+
 
 <style>
 .search-results-container {
