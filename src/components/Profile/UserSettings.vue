@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getCurrentUser, logout, updatePassword, updateEmail } from '@/services/apiAuth.js'
+import { useToast } from 'vue-toastification'
 
 const user = ref(null)
 const loading = ref(true)
@@ -9,6 +10,7 @@ const showEmailForm = ref(false)
 const showPasswordForm = ref(false)
 const newEmail = ref('')
 const newPassword = ref('')
+const toast = useToast()
 
 const handleLogout = async () => {
   await logout()
@@ -29,10 +31,22 @@ const updateUserEmail = async () => {
 
 const updateUserPassword = async () => {
   try {
-    if (newPassword.value) {
+    if (newPassword.value && newPassword.value === confirmPassword.value) {
       await updatePassword(newPassword.value)
       user.value = await getCurrentUser()
       showPasswordForm.value = false
+      toast.success('Password changed', {
+        timeout: 3000,
+        hideProgressBar: true,
+        showCloseButtonOnHover: true
+      })
+    } else {
+      console.error("Passwords don't match")
+      toast.error('Password aren`t same', {
+        timeout: 3000,
+        hideProgressBar: true,
+        showCloseButtonOnHover: true
+      })
     }
   } catch (error) {
     console.error(error.message)
@@ -75,7 +89,15 @@ onMounted(async () => {
         <span class="text-2xl">↑</span> Come back
       </button>
       <div>
-        <p class="my-4 font-semibold">Your email: {{ user.email }}</p>
+        <div v-if="user.user_metadata">
+          <div v-if="user.user_metadata.picture">
+            <img :src="user.user_metadata.picture" alt="User Picture" class="rounded-md" />
+          </div>
+          <div v-if="user.user_metadata.full_name">
+            <p>name: {{ user.user_metadata.full_name }}</p>
+          </div>
+        </div>
+        <p>email: {{ user.email }}</p>
         <div>
           <button @click="toggleSettings" class="py-3 text-blue-500 hover:underline">
             Settings
@@ -101,7 +123,7 @@ onMounted(async () => {
             Change Email
           </button>
         </div>
-        <div>
+        <div v-if="user.app_metadata.provider === 'email'">
           <button
             v-motion="{
               initial: { y: -20 },
@@ -125,6 +147,19 @@ onMounted(async () => {
             type="password"
             id="password"
             v-model="newPassword"
+            class="border border-gray-400"
+          />
+          <input
+            type="password"
+            id="password"
+            v-model="newPassword"
+            class="border border-gray-400"
+          />
+          <label for="confirmPassword">confirm new password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            v-model="confirmPassword"
             class="border border-gray-400"
           />
           <button class="hover:underline" type="submit">Save Password</button>
