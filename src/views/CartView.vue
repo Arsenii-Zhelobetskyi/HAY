@@ -7,6 +7,7 @@ import { getProduct } from '@/services/apiProducts.js'
 
 import TheCart from '../components/Cart/TheCart.vue'
 import MainButton from '../ui/MainButton.vue'
+import BackArrowLink from '../ui/BackArrowLink.vue'
 import { useToast } from 'vue-toastification'
 
 const cart = useCartStore()
@@ -32,6 +33,7 @@ async function confirmCheckout() {
 
 <template>
   <main class="grid grid-cols-4 px-6 pb-20 pt-8 font-normal">
+    <BackArrowLink class="absolute left-0 top-0 z-10 ml-4 mt-4"></BackArrowLink>
     <aside class="relative flex justify-center">
       <div
         class="fixed top-1/4 flex flex-col items-center justify-center gap-10 text-2xl font-light text-gray-600"
