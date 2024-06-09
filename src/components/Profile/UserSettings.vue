@@ -10,6 +10,7 @@ const showEmailForm = ref(false)
 const showPasswordForm = ref(false)
 const newEmail = ref('')
 const newPassword = ref('')
+const confirmPassword = ref('')
 const toast = useToast()
 
 const handleLogout = async () => {
@@ -17,12 +18,18 @@ const handleLogout = async () => {
   location.reload()
 }
 
+
 const updateUserEmail = async () => {
   try {
     if (newEmail.value) {
       await updateEmail(newEmail.value)
       user.value = await getCurrentUser()
       showEmailForm.value = false
+      toast.success('Confirmation email sent', {
+        timeout: 3000,
+        hideProgressBar: true,
+        showCloseButtonOnHover: true
+      })
     }
   } catch (error) {
     console.error(error.message)
@@ -41,8 +48,7 @@ const updateUserPassword = async () => {
         showCloseButtonOnHover: true
       })
     } else {
-      console.error("Passwords don't match")
-      toast.error('Password aren`t same', {
+      toast.error('Passwords don\'t match', {
         timeout: 3000,
         hideProgressBar: true,
         showCloseButtonOnHover: true
@@ -99,18 +105,18 @@ onMounted(async () => {
         </div>
         <p>email: {{ user.email }}</p>
         <div>
-          <button @click="toggleSettings" class="py-3 text-blue-500 hover:underline">
+          <button v-if="user.app_metadata.provider === 'email'" @click="toggleSettings" class="py-3 text-blue-500 hover:underline">
             Settings
           </button>
           <button
             @click="handleLogout"
-            class="duration-600 ml-60 rounded-lg px-7 py-3 text-red-500 transition hover:bg-red-500 hover:text-white"
+            class="duration-600 ml-60 rounded-lg px-7 py-3 text-red-500 hover:underline"
           >
             Logout
           </button>
         </div>
       </div>
-      <div v-if="showSettings">
+      <div v-if="showSettings && user.app_metadata.provider === 'email'">
         <div>
           <button
             v-motion="{
@@ -123,7 +129,7 @@ onMounted(async () => {
             Change Email
           </button>
         </div>
-        <div v-if="user.app_metadata.provider === 'email'">
+        <div>
           <button
             v-motion="{
               initial: { y: -20 },
@@ -143,12 +149,6 @@ onMounted(async () => {
         </form>
         <form v-if="showPasswordForm" @submit.prevent="updateUserPassword" class="grid">
           <label for="password">new password:</label>
-          <input
-            type="password"
-            id="password"
-            v-model="newPassword"
-            class="border border-gray-400"
-          />
           <input
             type="password"
             id="password"
