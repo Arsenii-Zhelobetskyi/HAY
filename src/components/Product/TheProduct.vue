@@ -1,6 +1,7 @@
 <script setup>
 import { getProduct } from '@/services/apiProducts'
 import TheCarousel from './TheCarousel.vue'
+import BackArrowLink from '../../ui/BackArrowLink.vue'
 import { useCartStore } from '@/stores/cart'
 import { useQuery } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
@@ -85,7 +86,8 @@ const removeAmount = (id) => {
       :initial="{ opacity: 0 }"
       :enter="{ opacity: 1, transition: { duration: 1300, delay: 200 } }"
     >
-      <div class="mb-5 text-gray-600">Category</div>
+      <BackArrowLink></BackArrowLink>
+      <div class="mb-5 mt-8 text-gray-600">Category</div>
       <div v-hoverable class="text-4xl font-medium">{{ data?.name }}</div>
 
       <div class="my-10 mr-16 text-2xl text-gray-600">{{ data?.desc }}</div>

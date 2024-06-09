@@ -8,7 +8,16 @@ export default {
       },
       lineHeight: {
         20: '5rem'
+      },
+      transitionDuration: {
+        400: '400ms',
+        600: '600ms'
       }
+    }
+  },
+  variants: {
+    extend: {
+      transitionDuration: ['hover', 'focus']
     }
   },
   plugins: []
