@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { decreaseProductQuantity } from '@/services/apiProducts.js'
 import { addOrder } from '@/services/apiOrders.js'
 import { useCartStore } from '@/stores/cart'
@@ -11,7 +11,6 @@ import BackArrowLink from '../ui/BackArrowLink.vue'
 import { useToast } from 'vue-toastification'
 
 const cart = useCartStore()
-const router = useRouter()
 const toast = useToast()
 
 async function confirmCheckout() {

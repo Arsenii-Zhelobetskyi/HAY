@@ -18,7 +18,6 @@ const handleLogout = async () => {
   location.reload()
 }
 
-
 const updateUserEmail = async () => {
   try {
     if (newEmail.value) {
@@ -48,7 +47,7 @@ const updateUserPassword = async () => {
         showCloseButtonOnHover: true
       })
     } else {
-      toast.error('Passwords don\'t match', {
+      toast.error("Passwords don't match", {
         timeout: 3000,
         hideProgressBar: true,
         showCloseButtonOnHover: true
@@ -88,6 +87,7 @@ onMounted(async () => {
     <div v-if="loading"></div>
     <div v-else-if="user" class="font-thin">
       <button
+        class="mb-3"
         v-hoverable
         v-motion="{ enter: { y: 0 }, hovered: { y: -5, transition: { duration: 500 } } }"
         @click="$emit('back')"
@@ -100,17 +100,25 @@ onMounted(async () => {
             <img :src="user.user_metadata.picture" alt="User Picture" class="rounded-md" />
           </div>
           <div v-if="user.user_metadata.full_name">
-            <p>name: {{ user.user_metadata.full_name }}</p>
+            <p>
+              name: <b> {{ user.user_metadata.full_name }}</b>
+            </p>
           </div>
         </div>
-        <p>email: {{ user.email }}</p>
+        <p>
+          email: <b>{{ user.email }}</b>
+        </p>
         <div>
-          <button v-if="user.app_metadata.provider === 'email'" @click="toggleSettings" class="py-3 text-blue-500 hover:underline">
+          <button
+            v-if="user.app_metadata.provider === 'email'"
+            @click="toggleSettings"
+            class="py-3 text-blue-500 hover:underline"
+          >
             Settings
           </button>
           <button
             @click="handleLogout"
-            class="duration-600 ml-60 rounded-lg px-7 py-3 text-red-500 hover:underline"
+            class="duration-600 ml-60 rounded-lg px-7 py-3 text-red-500 transition hover:bg-red-500 hover:text-white hover:underline"
           >
             Logout
           </button>
@@ -141,13 +149,23 @@ onMounted(async () => {
             Change Password
           </button>
         </div>
-        <form v-if="showEmailForm" @submit.prevent="updateUserEmail" class="grid">
+        <form v-if="showEmailForm" @submit.prevent="updateUserEmail" class="mt-2 grid">
           <label for="email">new email:</label>
           <input type="email" id="email" v-model="newEmail" class="border border-gray-400" />
-          <button class="hover:underline" type="submit">Save Email</button>
-          <button class="hover:underline" type="button" @click="toggleEmailForm">Cancel</button>
+          <div class="mt-4 flex flex-row justify-between">
+            <button
+              class="duration-400 hover:text-red-500 hover:underline"
+              type="button"
+              @click="toggleEmailForm"
+            >
+              Cancel
+            </button>
+            <button class="duration-400 hover:text-green-600 hover:underline" type="submit">
+              Save Email
+            </button>
+          </div>
         </form>
-        <form v-if="showPasswordForm" @submit.prevent="updateUserPassword" class="grid">
+        <form v-if="showPasswordForm" @submit.prevent="updateUserPassword" class="mt-2 grid">
           <label for="password">new password:</label>
           <input
             type="password"
@@ -162,8 +180,18 @@ onMounted(async () => {
             v-model="confirmPassword"
             class="border border-gray-400"
           />
-          <button class="hover:underline" type="submit">Save Password</button>
-          <button class="hover:underline" type="button" @click="togglePasswordForm">Cancel</button>
+          <div class="mt-4 flex flex-row justify-between">
+            <button
+              class="duration-400 hover:text-red-500 hover:underline"
+              type="button"
+              @click="togglePasswordForm"
+            >
+              Cancel
+            </button>
+            <button class="duration-400 hover:text-green-600 hover:underline" type="submit">
+              Save Password
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -47,23 +47,37 @@ export async function getCategories() {
   return data
 }
 
+export async function getMaxPrice() {
+  const { data, error } = await supabase
+    .from('products')
+    .select('price')
+    .order('price', { ascending: false })
+    .limit(1)
+
+  if (error) {
+    console.log('Error fetching maxPrice', error.message)
+    throw new Error(error.message)
+  }
+  return data
+}
+
 export async function decreaseProductQuantity(id, decAmount) {
-  const product = await getProduct(id);
-  const newQuantity = product.quantity - decAmount;
+  const product = await getProduct(id)
+  const newQuantity = product.quantity - decAmount
 
   if (newQuantity < 0) {
-    throw new Error('Negative quantity');
+    throw new Error('Negative quantity')
   }
 
-  const { data, error } = await supabase.from('products')
+  const { data, error } = await supabase
+    .from('products')
     .update({ quantity: newQuantity })
     .eq('id', id)
-    .select();
+    .select()
 
-  if (error)
-  {
-    throw new Error('Updating error');
+  if (error) {
+    throw new Error('Updating error')
   }
 
-  return data;
+  return data
 }

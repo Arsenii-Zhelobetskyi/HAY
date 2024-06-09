@@ -1,10 +1,14 @@
 import supabase from './supabase'
 import { PAGE_SIZE } from '../utils/constants'
-export async function fullTextSearch(product, categoryId = null) {
+export async function fullTextSearch(product, categoryId = null, maxPrice = null) {
   let query = supabase.from('products').select().textSearch('name', `'${product}:*'`)
 
   if (categoryId) {
     query = query.eq('category', categoryId)
+  }
+
+  if (maxPrice) {
+    query = query.lte('price', maxPrice)
   }
 
   const { data, error } = await query
@@ -18,8 +22,9 @@ export async function fullTextSearch(product, categoryId = null) {
       const images = product.images || []
       const id = product.id
       const category = product.category
+      const price = product.price
 
-      return { ...product, image: images[0], product_id: id, category_id: category }
+      return { ...product, image: images[0], product_id: id, category_id: category, price: price }
     })
   )
 
