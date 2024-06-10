@@ -13,7 +13,7 @@ const toast = useToast()
 const cartStore = useCartStore()
 
 onMounted(() => {
-  const item = cartStore.cart.find((item) => item.id === route.params?.id)
+  const item = cartStore.cart.find((item) => item?.id === route.params?.id)
   amount.value = item ? item.amount : 0
 })
 
@@ -29,7 +29,7 @@ watch(amount, (newAmount) => {
 })
 
 const isInCart = (newItem) => {
-  return cartStore.cart.some((item) => item.id === newItem.id)
+  return cartStore.cart.some((item) => item?.id === newItem?.id)
 }
 
 const handleAddToCart = (newItem) => {
