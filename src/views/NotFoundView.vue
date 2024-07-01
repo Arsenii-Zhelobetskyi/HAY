@@ -1,5 +1,5 @@
 <script setup>
-import sidebarSignIn from '@/assets/sidebar-signIn.jpg'
+import sidebarSignIn from '@/assets/sidebar-signIn.webp'
 import TheArrow from '../ui/TheArrow.vue'
 </script>
 

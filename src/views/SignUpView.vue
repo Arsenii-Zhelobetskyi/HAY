@@ -1,5 +1,5 @@
 <script setup>
-import sidebarSignUp from '@/assets/sidebar-signUp.jpg'
+import sidebarSignUp from '@/assets/sidebar-signUp.webp'
 import SignUpForm from '@/components/SignUp/SignUpForm.vue'
 import WelcomeMessage from '@/ui/WelcomeMessage.vue'
 </script>
