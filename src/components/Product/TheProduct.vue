@@ -8,6 +8,15 @@ import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { ref, watch, onMounted } from 'vue'
 
+import DeliveryInfoModal from '@/components/Product/DeliveryInfoModal.vue'
+import ReturnInfoModal from '@/components/Product/ReturnInfoModal.vue'
+
+const isModalVisible = ref({delivery: false, return: false})
+
+const toggleModal = (type, state) => {
+  isModalVisible.value[type] = state
+}
+
 const route = useRoute()
 const toast = useToast()
 const cartStore = useCartStore()
@@ -125,6 +134,22 @@ const removeAmount = (id) => {
             </button>
           </div>
         </div>
+      </div>
+      <div class="flex flex-col gap-2 mt-4 items-start">
+        <div class="flex gap-2">
+          <button
+            @click="toggleModal('delivery', true)"
+            class="text-2xl hover:underline">Delivery Info</button>
+          <img src="../../assets/delivery-truck.png" alt = "delivery">
+        </div>
+        <div class="flex gap-2">
+          <button
+            @click="toggleModal('return', true)"
+            class="text-2xl hover:underline">Return Info</button>
+         <img src="../../assets/return-box.png" alt = "return">
+        </div>
+        <DeliveryInfoModal :isVisible="isModalVisible.delivery" @close="toggleModal('delivery', false)" />
+        <ReturnInfoModal :isVisible="isModalVisible.return" @close="toggleModal('return', false)" />
       </div>
     </div>
   </div>
