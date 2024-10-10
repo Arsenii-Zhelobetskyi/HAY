@@ -6,14 +6,15 @@ import TheFilter from './TheFilter.vue'
 
 const { data: categories, isPending } = useQuery({
   queryKey: ['categories'],
-  queryFn: () => getCategories()
+  queryFn: () => getCategories(),
+  staleTime: Infinity
 })
 </script>
 <template>
   <div class="mt-16">
-    <label class="text-2xl font-light">Categories</label>
+    <label class="text-2xl font-light cursor-none">Categories</label>
     <div class="flex gap-2">
-      <div v-if="isPending">Loading...</div>
+      <div v-if="isPending" className='text-2xl font-light'>Loading...</div>
       <template v-else>
         <TheFilter value="reset" filterField="category">All,</TheFilter>
         <TheFilter

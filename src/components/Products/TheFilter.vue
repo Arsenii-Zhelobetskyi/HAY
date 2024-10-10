@@ -26,7 +26,7 @@ function setFilter(filterField, value) {
   <div
     v-hoverable
     @click="setFilter(filterField, value)"
-    class="text-2xl font-light hover:font-medium hover:underline"
+    :class="`text-2xl font-light hover:font-medium hover:underline ${Number(router.currentRoute.value.query[filterField])===value ? 'font-medium underline':''} `"
   >
     <slot></slot>
   </div>

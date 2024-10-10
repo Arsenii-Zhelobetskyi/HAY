@@ -101,7 +101,7 @@ watch(
           <input
             type="range"
             id="max-price-range"
-            class="w-full accent-indigo-600"
+            class="w-full accent-black"
             min="0"
             :max="maxPrice"
             v-model="selectedMaxPrice"

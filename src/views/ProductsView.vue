@@ -6,27 +6,18 @@ import TheProductsAside from '../components/Products/ProductsAside.vue'
 import TheProducts from '../components/Products/TheProducts.vue'
 import BaseSpinner from '../ui/BaseSpinner.vue'
 
-import { useQueryClient } from '@tanstack/vue-query'
-import { useQuery } from '@tanstack/vue-query'
-import { getProducts } from '../services/apiProducts'
+import { useQuery, useQueryClient } from '@tanstack/vue-query'
+import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { computed, watch, ref, onMounted } from 'vue'
+import { getProducts } from '../services/apiProducts'
 
-onMounted(() => {
-  isShow.value = false
-
-  if (!isPending.value) {
-    setTimeout(() => {
-      isShow.value = true
-    }, 2000)
-  }
-})
 
 const queryClient = useQueryClient()
 const route = useRoute()
 
-const page = computed(() => route.query.page || '1')
+const page = computed(() => Number(route.query.page) || 1)
 const category = computed(() => route.query.category || undefined)
+const tag= computed(() => route.query.tag)
 const filter = computed(() =>
   !category.value ? undefined : { field: 'category', value: category.value }
 )
@@ -37,41 +28,34 @@ const sortBy = computed(() => {
     : undefined
 })
 
-const isShow = ref(false)
 
 const { data, isPending } = useQuery({
-  queryKey: ['products', page, filter, sortBy],
-  queryFn: () => getProducts({ page: page.value, filter: filter.value, sortBy: sortBy.value })
+  queryKey: ['products', page, filter, sortBy, tag],
+  queryFn: () => getProducts({ page: page.value, filter: filter.value, sortBy: sortBy.value,tag:tag.value })
 })
 
-watch([isPending], () => {
-  if (!isPending.value) {
-    setTimeout(() => {
-      isShow.value = true
-    }, 2000)
-  }
-})
 
 const pageCount = computed(() => {
   return Math.ceil(data?.value?.count / PAGE_SIZE)
 })
-
-watch([page, filter, sortBy, pageCount], () => {
+watch([page, filter, sortBy, pageCount,tag], () => {
   if (Number(page.value) < pageCount.value) {
     queryClient.prefetchQuery({
-      queryKey: ['products', filter, sortBy, Number(page.value) + 1],
+      queryKey: ['products', Number(page.value) + 1, filter, sortBy,tag],
       queryFn: () =>
-        getProducts({ filter: filter.value, sortBy: sortBy.value, page: Number(page.value) + 1 })
+        getProducts({ filter: filter.value, sortBy: sortBy.value, page: Number(page.value) + 1,tag:tag.value })
     })
     if (page.value > 1) {
       queryClient.prefetchQuery({
-        queryKey: ['products', filter, sortBy, page.value - 1],
+        queryKey: ['products', Number(page.value) -1,filter, sortBy ,tag],
         queryFn: () =>
-          getProducts({ filter: filter.value, sortBy: sortBy.value, page: page.value - 1 })
+          getProducts({ filter: filter.value, sortBy: sortBy.value, page: page.value - 1,tag:tag.value })
       })
     }
   }
 })
+
+
 </script>
 
 <template>
@@ -79,16 +63,16 @@ watch([page, filter, sortBy, pageCount], () => {
     <aside>
       <TheProductsAside />
     </aside>
-    <section class="col-span-3">
+    <section class="col-span-3 relative mb-20">
       <transition name="transition" mode="out-in">
-        <div v-show="!isShow">
+        <div v-show="isPending">
           <base-spinner></base-spinner>
         </div>
       </transition>
 
       <transition name="transition" mode="in-out">
-        <div v-show="isShow">
-          <TheProducts :products="data?.products" :isShow="isShow" />
+        <div v-show="!isPending" >
+          <TheProducts :products="data?.products"  />
           <ThePagination :count="data?.count" :isPending="isPending" />
         </div>
       </transition>
@@ -96,28 +80,3 @@ watch([page, filter, sortBy, pageCount], () => {
   </main>
 </template>
 
-<style scoped>
-.transition-enter-from,
-.transition-leave-to {
-  opacity: 0;
-  transform: translateY(-850px);
-}
-
-.transition-enter-active {
-  transition:
-    opacity 1.5s ease-out,
-    transform 1.5s ease-out;
-}
-
-.transition-leave-active {
-  transition:
-    opacity 1.5s ease-in,
-    transform 1.5s ease-in;
-}
-
-.transition-enter-to,
-.transition-leave-from {
-  opacity: 1;
-  transform: translateY(-50px);
-}
-</style>

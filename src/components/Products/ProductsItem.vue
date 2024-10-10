@@ -8,7 +8,7 @@ const props = defineProps(['item', 'isShow', 'number'])
 const delayValue = props.number * 300
 
 const initial = ref({
-  y: 500,
+  y: 100,
   opacity: 0
 })
 
@@ -20,11 +20,10 @@ const enter = ref({
 
 <template>
   <div
-    v-if="isShow"
     v-motion
     :initial="initial"
     :enter="enter"
-    :duration="1800"
+    :duration="1000"
     :delay="delayValue"
     class="container flex flex-col"
     @click="router.push(`/product/${item.id}`)"
@@ -34,7 +33,7 @@ const enter = ref({
         {{ item.name }}
       </div>
       <div>
-        {{ item.price }}
+        $ {{ item.price }}
       </div>
     </div>
     <div class="image-container">

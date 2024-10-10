@@ -96,7 +96,9 @@ router.beforeEach(async (to, from, next) => {
   const queryClient = useQueryClient()
   const data = await queryClient.fetchQuery({
     queryKey: ['user'],
-    queryFn: getCurrentUser
+    queryFn: getCurrentUser,
+    staleTime:Infinity,
+    retry: false
   })
 
   if (!data && to.name !== 'sign-in' && to.name !== 'sign-up') {

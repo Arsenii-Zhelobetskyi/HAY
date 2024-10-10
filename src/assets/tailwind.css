@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+  --swiper-pagination-color: black ;
+}
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+
 }
 a,
 button {

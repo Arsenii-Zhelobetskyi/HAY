@@ -8,6 +8,7 @@ import { useRouter } from 'vue-router'
  */
 export function usePagination(totalCount, pageSize, siblingCount = 2) {
   const router = useRouter()
+  
   const pagination = ref([])
   const currentPage = ref(
     router.currentRoute.value.query.page ? +router.currentRoute.value.query.page : 1
@@ -78,17 +79,20 @@ export function usePagination(totalCount, pageSize, siblingCount = 2) {
     value instanceof Dots ? (currentPage.value = value.newCurrentPage) : (currentPage.value = value)
     const currentQuery = router.currentRoute.value.query
     router.push({ query: { ...currentQuery, page: currentPage.value } })
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function goBack() {
     if (currentPage.value === 1) return
     changePosition(currentPage.value - 1)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function goForward() {
     if (currentPage.value === totalPageCount.value) return
 
     changePosition(currentPage.value + 1)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   watch(
     [currentPage, totalCount, router.currentRoute],

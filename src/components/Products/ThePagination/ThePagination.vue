@@ -22,14 +22,21 @@ const { pagination, goBack, goForward, currentPage, Dots, changePosition } = use
 
 <template>
   <div
-    v-if="!isPending"
-    v-motion
-    :initial="{ opacity: 0 }"
-    :enter="{ opacity: 1 }"
-    :leave="{ opacity: 0 }"
-    :duration="1500"
-    :delay="4000"
-    class="mb-20 mt-8 flex items-center justify-center text-2xl"
+    v-if="!isPending && pagination.length > 1"
+    v-motion="{
+      initial: {
+        y: 100,
+        opacity: 0
+      },
+      enter: {
+        y: 0,
+        opacity: 1,
+        transition:{
+          duration:500,
+        }
+      },
+    }"
+    class="absolute bottom-0 left-1/4 right-1/4 flex items-center justify-center text-2xl"
   >
     <div class="flex items-center justify-center gap-14">
       <div v-hoverable class="px-4 py-2 font-medium hover:bg-gray-200" @click="goBack">

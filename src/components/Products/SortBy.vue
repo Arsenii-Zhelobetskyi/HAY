@@ -1,5 +1,5 @@
 <script setup>
-defineProps(['options'])
+const props=defineProps(['options'])
 
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -25,7 +25,7 @@ function setSortBy(value) {
 </script>
 <template>
   <div class="mt-16">
-    <label class="text-2xl font-light">Sort</label>
+    <label class="text-2xl font-light cursor-none">Sort</label>
     <div class="flex gap-2">
       <div
         class="text-2xl font-light hover:font-medium hover:underline"
@@ -37,7 +37,7 @@ function setSortBy(value) {
       <div
         v-for="(option, index) in options"
         :key="index"
-        class="text-2xl font-light hover:font-medium hover:underline"
+    :class="`text-2xl font-light hover:font-medium hover:underline ${router.currentRoute.value.query[filterField]===option.value ? 'font-medium underline':''} `"
         @click="setSortBy(option.value)"
         v-hoverable
       >

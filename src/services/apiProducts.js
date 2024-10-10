@@ -1,7 +1,7 @@
 import { PAGE_SIZE } from '../utils/constants'
 import supabase from './supabase'
 
-export async function getProducts({ page, filter, sortBy }) {
+export async function getProducts({ page, filter, sortBy, tag }) {
   let query = supabase.from('products').select('*', { count: 'exact' })
 
   if (page) {
@@ -17,6 +17,9 @@ export async function getProducts({ page, filter, sortBy }) {
 
   if (filter) {
     query = query[filter.method || 'eq'](filter.field, filter.value)
+  }
+  if (tag) {
+    query = query.eq('tag',tag)
   }
 
   const { data: products, error, count } = await query
@@ -44,6 +47,15 @@ export async function getCategories() {
     console.log('Error fetching categories', error.message)
     throw new Error(error.message)
   }
+  return data
+}
+export async function getTags(){
+  const {data, error} = await supabase.from('product_tag').select('*')
+  if(error){
+    console.log('Error fetching tags', error.message)
+    throw new Error(error.message)
+  }
+  // console.log(data)
   return data
 }
 
