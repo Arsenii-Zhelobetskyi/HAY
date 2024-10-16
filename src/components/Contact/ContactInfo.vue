@@ -1,5 +1,6 @@
 <script setup>
 const data = [
+
   {
     title: 'Germany & EU',
     content: ['+49 (221) 5481 6139', '+49 (152) 5841 5396']
@@ -50,8 +51,12 @@ const data = [
     }"
     class="mb-10"
   >
-    <p class="mb-2 text-xl font-thin uppercase">{{ item.title }}</p>
-    <h1 v-for="(itemEl, phoneId) in item.content" :key="phoneId" class="text-4xl font-medium">
+  <p class="mb-2 text-3xl font-semibold  uppercase">{{ item.title }}</p>
+  <!-- <h1 v-for="(itemEl, phoneId) in item.content" :key="phoneId" class="text-4xl font-medium">
+      <a v-if="item.type" :href="itemEl.link" v-hoverable> {{ itemEl.name }}</a>
+      <span v-else v-hoverable> {{ itemEl }}</span>
+    </h1> -->
+  <h1 v-for="(itemEl, phoneId) in item.content" :key="phoneId" class="text-3xl ">
       <a v-if="item.type" :href="itemEl.link" v-hoverable> {{ itemEl.name }}</a>
       <span v-else v-hoverable> {{ itemEl }}</span>
     </h1>

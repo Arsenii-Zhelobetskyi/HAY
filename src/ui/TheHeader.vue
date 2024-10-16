@@ -7,7 +7,7 @@ const cart = useCartStore()
 
 <template>
   <header
-    class="fixed bottom-0 left-0 right-0 grid h-20 grid-cols-4 content-center bg-white p-1 px-6 font-medium uppercase"
+    class="fixed bottom-0 left-0 right-0 grid h-20 grid-cols-4 content-center bg-white p-1 px-6 font-bold uppercase"
   >
     <RouterLink v-hoverable class="max-w-28 cursor-none" to="/products">Hay</RouterLink>
     <nav class="col-span-3 grid grid-cols-3 gap-6">
