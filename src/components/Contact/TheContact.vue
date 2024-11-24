@@ -67,7 +67,7 @@ watch(
 </script>
 <template>
   <div class="grid grid-cols-2">
-    <div class="flex h-[88vh] flex-col gap-10">
+    <div class="flex h-[86.5vh] flex-col gap-10 ">
       <h1
         class="text-5xl font-medium"
         v-hoverable

@@ -18,6 +18,7 @@ import WelcomeMessage from '@/ui/WelcomeMessage.vue'
         <WelcomeMessage>
           <h1 class="text-center text-4xl font-medium">Welcome to My App</h1>
           <h1 class="text-center text-4xl font-medium">Sign in</h1>
+
         </WelcomeMessage>
         <SignInForm />
       </div>

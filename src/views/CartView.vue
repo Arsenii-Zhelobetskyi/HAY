@@ -47,7 +47,14 @@ async function confirmCheckout() {
             Your total is <span class="font-medium text-green-600">$ {{ cart.totalPrice }}</span>
           </div>
 
-          <MainButton :function="confirmCheckout">Checkout</MainButton>
+          <div class="gap-4 flex flex-col">
+            <MainButton :function="confirmCheckout">Checkout</MainButton>
+            <div class="flex  gap-4">
+              <img src="/public/masterCard.svg" class="h-9 w-full">
+              <img src="/public/visa.svg" class="h-9 w-full">
+              <img src="/public/fondy.svg" class="h-9 w-full">
+            </div>
+          </div>
         </template>
         <div v-else v-hoverable>Your cart is empty</div>
         <RouterLink
