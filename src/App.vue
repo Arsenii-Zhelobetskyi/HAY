@@ -7,5 +7,5 @@ import TheCursor from './ui/TheCursor.vue'
   <TheCursor />
   <RouterView />
   <div class="bg"></div>
-  <!-- <VueQueryDevtools /> -->
+  <VueQueryDevtools />
 </template>
